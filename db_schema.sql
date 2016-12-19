@@ -174,6 +174,42 @@ ALTER SEQUENCE spree_adjustments_id_seq OWNED BY spree_adjustments.id;
 
 
 --
+-- Name: spree_assemblies_parts; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE spree_assemblies_parts (
+    assembly_id integer NOT NULL,
+    part_id integer NOT NULL,
+    count integer DEFAULT 1 NOT NULL,
+    id integer NOT NULL,
+    variant_selection_deferred boolean
+);
+
+
+ALTER TABLE spree_assemblies_parts OWNER TO postgres;
+
+--
+-- Name: spree_assemblies_parts_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE spree_assemblies_parts_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE spree_assemblies_parts_id_seq OWNER TO postgres;
+
+--
+-- Name: spree_assemblies_parts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE spree_assemblies_parts_id_seq OWNED BY spree_assemblies_parts.id;
+
+
+--
 -- Name: spree_assets; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -829,6 +865,41 @@ ALTER SEQUENCE spree_orders_id_seq OWNED BY spree_orders.id;
 
 
 --
+-- Name: spree_part_line_items; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE spree_part_line_items (
+    id integer NOT NULL,
+    line_item_id integer NOT NULL,
+    variant_id integer NOT NULL,
+    quantity integer DEFAULT 1
+);
+
+
+ALTER TABLE spree_part_line_items OWNER TO postgres;
+
+--
+-- Name: spree_part_line_items_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE spree_part_line_items_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE spree_part_line_items_id_seq OWNER TO postgres;
+
+--
+-- Name: spree_part_line_items_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE spree_part_line_items_id_seq OWNED BY spree_part_line_items.id;
+
+
+--
 -- Name: spree_payment_capture_events; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -1152,7 +1223,9 @@ CREATE TABLE spree_products (
     updated_at timestamp without time zone NOT NULL,
     promotionable boolean DEFAULT true,
     meta_title character varying,
-    discontinue_on timestamp without time zone
+    discontinue_on timestamp without time zone,
+    can_be_part boolean DEFAULT false NOT NULL,
+    individual_sale boolean DEFAULT true NOT NULL
 );
 
 
@@ -3161,6 +3234,13 @@ ALTER TABLE ONLY spree_adjustments ALTER COLUMN id SET DEFAULT nextval('spree_ad
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
+ALTER TABLE ONLY spree_assemblies_parts ALTER COLUMN id SET DEFAULT nextval('spree_assemblies_parts_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
 ALTER TABLE ONLY spree_assets ALTER COLUMN id SET DEFAULT nextval('spree_assets_id_seq'::regclass);
 
 
@@ -3267,6 +3347,13 @@ ALTER TABLE ONLY spree_order_promotions ALTER COLUMN id SET DEFAULT nextval('spr
 --
 
 ALTER TABLE ONLY spree_orders ALTER COLUMN id SET DEFAULT nextval('spree_orders_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY spree_part_line_items ALTER COLUMN id SET DEFAULT nextval('spree_part_line_items_id_seq'::regclass);
 
 
 --
@@ -3961,6 +4048,12 @@ COPY schema_migrations (version) FROM stdin;
 20161217191865
 20161219063422
 20161219063423
+20161219071104
+20161219071105
+20161219071106
+20161219071107
+20161219071108
+20161219071109
 \.
 
 
@@ -3998,6 +4091,22 @@ COPY spree_adjustments (id, source_id, source_type, adjustable_id, adjustable_ty
 --
 
 SELECT pg_catalog.setval('spree_adjustments_id_seq', 6, true);
+
+
+--
+-- Data for Name: spree_assemblies_parts; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY spree_assemblies_parts (assembly_id, part_id, count, id, variant_selection_deferred) FROM stdin;
+2	6	1	1	\N
+\.
+
+
+--
+-- Name: spree_assemblies_parts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('spree_assemblies_parts_id_seq', 1, true);
 
 
 --
@@ -4578,6 +4687,21 @@ SELECT pg_catalog.setval('spree_orders_id_seq', 2, true);
 
 
 --
+-- Data for Name: spree_part_line_items; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY spree_part_line_items (id, line_item_id, variant_id, quantity) FROM stdin;
+\.
+
+
+--
+-- Name: spree_part_line_items_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('spree_part_line_items_id_seq', 1, false);
+
+
+--
 -- Data for Name: spree_payment_capture_events; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
@@ -4820,23 +4944,23 @@ SELECT pg_catalog.setval('spree_product_properties_id_seq', 66, true);
 -- Data for Name: spree_products; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY spree_products (id, name, description, available_on, deleted_at, slug, meta_description, meta_keywords, tax_category_id, shipping_category_id, created_at, updated_at, promotionable, meta_title, discontinue_on) FROM stdin;
-15	Spree Stein	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	spree-stein	\N	\N	\N	1	2016-12-19 05:17:41.910012	2016-12-19 05:17:55.39625	t	\N	\N
-14	Ruby on Rails Stein	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	ruby-on-rails-stein	\N	\N	\N	1	2016-12-19 05:17:41.778042	2016-12-19 05:17:53.040157	t	\N	\N
-1	Ruby on Rails Tote	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	ruby-on-rails-tote	\N	\N	1	1	2016-12-19 05:17:39.815691	2016-12-19 05:17:51.447073	t	\N	\N
-2	Ruby on Rails Bag	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	ruby-on-rails-bag	\N	\N	1	1	2016-12-19 05:17:40.08535	2016-12-19 05:17:51.608433	t	\N	\N
-7	Apache Baseball Jersey	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	apache-baseball-jersey	\N	\N	1	1	2016-12-19 05:17:40.820336	2016-12-19 05:17:53.347791	t	\N	\N
-6	Ruby Baseball Jersey	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	ruby-baseball-jersey	\N	\N	1	1	2016-12-19 05:17:40.687762	2016-12-19 05:17:53.63067	t	\N	\N
-3	Ruby on Rails Baseball Jersey	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	ruby-on-rails-baseball-jersey	\N	\N	1	1	2016-12-19 05:17:40.277706	2016-12-19 05:17:51.929822	t	\N	\N
-12	Spree Bag	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	spree-bag	\N	\N	1	1	2016-12-19 05:17:41.502741	2016-12-19 05:17:53.823845	t	\N	\N
-4	Ruby on Rails Jr. Spaghetti	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	ruby-on-rails-jr-spaghetti	\N	\N	1	1	2016-12-19 05:17:40.412706	2016-12-19 05:17:52.084459	t	\N	\N
-16	Spree Mug	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	spree-mug	\N	\N	\N	1	2016-12-19 05:17:42.041639	2016-12-19 05:17:55.667226	t	\N	\N
-11	Spree Tote	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	spree-tote	\N	\N	1	1	2016-12-19 05:17:41.370898	2016-12-19 05:17:54.212971	t	\N	\N
-13	Ruby on Rails Mug	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	ruby-on-rails-mug	\N	\N	\N	1	2016-12-19 05:17:41.645955	2016-12-19 05:17:52.400156	t	\N	\N
-5	Ruby on Rails Ringer T-Shirt	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	ruby-on-rails-ringer-t-shirt	\N	\N	1	1	2016-12-19 05:17:40.566351	2016-12-19 05:17:52.727618	t	\N	\N
-10	Spree Ringer T-Shirt	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	spree-ringer-t-shirt	\N	\N	1	1	2016-12-19 05:17:41.239331	2016-12-19 05:17:54.538761	t	\N	\N
-9	Spree Jr. Spaghetti	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	spree-jr-spaghetti	\N	\N	1	1	2016-12-19 05:17:41.106843	2016-12-19 05:17:54.698342	t	\N	\N
-8	Spree Baseball Jersey	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	spree-baseball-jersey	\N	\N	1	1	2016-12-19 05:17:40.974971	2016-12-19 05:17:55.051821	t	\N	\N
+COPY spree_products (id, name, description, available_on, deleted_at, slug, meta_description, meta_keywords, tax_category_id, shipping_category_id, created_at, updated_at, promotionable, meta_title, discontinue_on, can_be_part, individual_sale) FROM stdin;
+15	Spree Stein	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	spree-stein	\N	\N	\N	1	2016-12-19 05:17:41.910012	2016-12-19 05:17:55.39625	t	\N	\N	f	t
+14	Ruby on Rails Stein	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	ruby-on-rails-stein	\N	\N	\N	1	2016-12-19 05:17:41.778042	2016-12-19 05:17:53.040157	t	\N	\N	f	t
+1	Ruby on Rails Tote	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	ruby-on-rails-tote	\N	\N	1	1	2016-12-19 05:17:39.815691	2016-12-19 05:17:51.447073	t	\N	\N	f	t
+7	Apache Baseball Jersey	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	apache-baseball-jersey	\N	\N	1	1	2016-12-19 05:17:40.820336	2016-12-19 05:17:53.347791	t	\N	\N	f	t
+3	Ruby on Rails Baseball Jersey	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	ruby-on-rails-baseball-jersey	\N	\N	1	1	2016-12-19 05:17:40.277706	2016-12-19 05:17:51.929822	t	\N	\N	f	t
+12	Spree Bag	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	spree-bag	\N	\N	1	1	2016-12-19 05:17:41.502741	2016-12-19 05:17:53.823845	t	\N	\N	f	t
+4	Ruby on Rails Jr. Spaghetti	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	ruby-on-rails-jr-spaghetti	\N	\N	1	1	2016-12-19 05:17:40.412706	2016-12-19 05:17:52.084459	t	\N	\N	f	t
+16	Spree Mug	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	spree-mug	\N	\N	\N	1	2016-12-19 05:17:42.041639	2016-12-19 05:17:55.667226	t	\N	\N	f	t
+11	Spree Tote	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	spree-tote	\N	\N	1	1	2016-12-19 05:17:41.370898	2016-12-19 05:17:54.212971	t	\N	\N	f	t
+13	Ruby on Rails Mug	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	ruby-on-rails-mug	\N	\N	\N	1	2016-12-19 05:17:41.645955	2016-12-19 05:17:52.400156	t	\N	\N	f	t
+5	Ruby on Rails Ringer T-Shirt	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	ruby-on-rails-ringer-t-shirt	\N	\N	1	1	2016-12-19 05:17:40.566351	2016-12-19 05:17:52.727618	t	\N	\N	f	t
+10	Spree Ringer T-Shirt	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	spree-ringer-t-shirt	\N	\N	1	1	2016-12-19 05:17:41.239331	2016-12-19 05:17:54.538761	t	\N	\N	f	t
+9	Spree Jr. Spaghetti	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	spree-jr-spaghetti	\N	\N	1	1	2016-12-19 05:17:41.106843	2016-12-19 05:17:54.698342	t	\N	\N	f	t
+8	Spree Baseball Jersey	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	spree-baseball-jersey	\N	\N	1	1	2016-12-19 05:17:40.974971	2016-12-19 05:17:55.051821	t	\N	\N	f	t
+6	Ruby Baseball Jersey	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 00:00:00	\N	ruby-baseball-jersey			1	1	2016-12-19 05:17:40.687762	2016-12-19 07:16:22.327562	t		\N	t	t
+2	Ruby on Rails Bag	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	ruby-on-rails-bag	\N	\N	1	1	2016-12-19 05:17:40.08535	2016-12-19 07:19:50.333022	t	\N	\N	f	t
 \.
 
 
@@ -9419,8 +9543,8 @@ SELECT pg_catalog.setval('spree_tax_rates_id_seq', 1, true);
 --
 
 COPY spree_taxonomies (id, name, created_at, updated_at, "position") FROM stdin;
-1	Categories	2016-12-19 05:17:42.179509	2016-12-19 05:17:55.675881	1
-2	Brand	2016-12-19 05:17:42.245251	2016-12-19 05:17:55.675881	2
+1	Categories	2016-12-19 05:17:42.179509	2016-12-19 07:19:50.345653	1
+2	Brand	2016-12-19 05:17:42.245251	2016-12-19 07:19:50.345653	2
 \.
 
 
@@ -9437,16 +9561,16 @@ SELECT pg_catalog.setval('spree_taxonomies_id_seq', 2, true);
 
 COPY spree_taxons (id, parent_id, "position", name, permalink, taxonomy_id, lft, rgt, icon_file_name, icon_content_type, icon_file_size, icon_updated_at, description, created_at, updated_at, meta_title, meta_description, meta_keywords, depth) FROM stdin;
 9	2	0	Apache	brand/apache	2	16	17	\N	\N	\N	\N	\N	2016-12-19 05:17:42.84554	2016-12-19 05:17:53.352526	\N	\N	\N	1
-1	\N	0	Categories	categories	1	1	12	\N	\N	\N	\N	\N	2016-12-19 05:17:42.196398	2016-12-19 05:17:55.671866	\N	\N	\N	0
-2	\N	0	Brand	brand	2	13	22	\N	\N	\N	\N	\N	2016-12-19 05:17:42.249437	2016-12-19 05:17:55.671866	\N	\N	\N	0
 10	2	0	Spree	brand/spree	2	18	19	\N	\N	\N	\N	\N	2016-12-19 05:17:42.915505	2016-12-19 05:17:55.671866	\N	\N	\N	1
 4	1	2	Mugs	categories/mugs	1	4	5	\N	\N	\N	\N	\N	2016-12-19 05:17:42.461486	2016-12-19 05:17:55.671866	\N	\N	\N	1
-8	2	0	Ruby	brand/ruby	2	14	15	\N	\N	\N	\N	\N	2016-12-19 05:17:42.790675	2016-12-19 05:17:53.634911	\N	\N	\N	1
-3	1	1	Bags	categories/bags	1	2	3	\N	\N	\N	\N	\N	2016-12-19 05:17:42.337278	2016-12-19 05:17:54.218277	\N	\N	\N	1
+8	2	0	Ruby	brand/ruby	2	14	15	\N	\N	\N	\N	\N	2016-12-19 05:17:42.790675	2016-12-19 07:16:22.345023	\N	\N	\N	1
+7	5	0	T-Shirts	categories/clothing/t-shirts	1	9	10	\N	\N	\N	\N	\N	2016-12-19 05:17:42.680007	2016-12-19 07:16:22.345023	\N	\N	\N	2
+5	1	0	Clothing	categories/clothing	1	6	11	\N	\N	\N	\N	\N	2016-12-19 05:17:42.544333	2016-12-19 07:16:22.345023	\N	\N	\N	1
+1	\N	0	Categories	categories	1	1	12	\N	\N	\N	\N	\N	2016-12-19 05:17:42.196398	2016-12-19 07:19:50.339089	\N	\N	\N	0
+2	\N	0	Brand	brand	2	13	22	\N	\N	\N	\N	\N	2016-12-19 05:17:42.249437	2016-12-19 07:19:50.339089	\N	\N	\N	0
+3	1	1	Bags	categories/bags	1	2	3	\N	\N	\N	\N	\N	2016-12-19 05:17:42.337278	2016-12-19 07:19:50.339089	\N	\N	\N	1
+11	2	0	Rails	brand/rails	2	20	21	\N	\N	\N	\N	\N	2016-12-19 05:17:43.061184	2016-12-19 07:19:50.339089	\N	\N	\N	1
 6	5	0	Shirts	categories/clothing/shirts	1	7	8	\N	\N	\N	\N	\N	2016-12-19 05:17:42.59072	2016-12-19 05:17:54.703218	\N	\N	\N	2
-7	5	0	T-Shirts	categories/clothing/t-shirts	1	9	10	\N	\N	\N	\N	\N	2016-12-19 05:17:42.680007	2016-12-19 05:17:55.05598	\N	\N	\N	2
-5	1	0	Clothing	categories/clothing	1	6	11	\N	\N	\N	\N	\N	2016-12-19 05:17:42.544333	2016-12-19 05:17:55.05598	\N	\N	\N	1
-11	2	0	Rails	brand/rails	2	20	21	\N	\N	\N	\N	\N	2016-12-19 05:17:43.061184	2016-12-19 05:17:53.04445	\N	\N	\N	1
 \.
 
 
@@ -9493,8 +9617,8 @@ SELECT pg_catalog.setval('spree_user_authentications_id_seq', 1, true);
 --
 
 COPY spree_users (id, encrypted_password, password_salt, email, remember_token, persistence_token, reset_password_token, perishable_token, sign_in_count, failed_attempts, last_request_at, current_sign_in_at, last_sign_in_at, current_sign_in_ip, last_sign_in_ip, login, ship_address_id, bill_address_id, authentication_token, unlock_token, locked_at, reset_password_sent_at, created_at, updated_at, spree_api_key, remember_created_at, deleted_at, confirmation_token, confirmed_at, confirmation_sent_at) FROM stdin;
-1	77dea10ace2f0a6e7a263093984559ff15d5442a4b6eab2e885d9dad43e97df17062e74981413094690ea5583bcf8f4b483863dd1908d1b366eafe036a13d621	YVTj5BU8tYsSVrfyWzyD	spree@example.com	\N	\N	\N	\N	2	0	\N	2016-12-19 06:35:55.348144	2016-12-19 05:18:58.247004	127.0.0.1	127.0.0.1	spree@example.com	\N	\N	\N	\N	\N	\N	2016-12-19 05:17:08.097891	2016-12-19 06:35:55.349155	91ed2d1d908fe9664c0c3705b10b1b1652ed93f8c0e72195	\N	\N	\N	\N	\N
-2	\N	\N	karthikpamidimari@gmail.com	\N	\N	\N	\N	1	0	\N	2016-12-19 06:37:22.286488	2016-12-19 06:37:22.286488	127.0.0.1	127.0.0.1	karthikpamidimari@gmail.com	\N	\N	\N	\N	\N	\N	2016-12-19 06:37:22.206866	2016-12-19 06:37:22.287357	\N	\N	\N	\N	\N	\N
+2	\N	\N	karthikpamidimari@gmail.com	\N	\N	\N	\N	3	0	\N	2016-12-19 07:14:01.582758	2016-12-19 07:03:56.515098	127.0.0.1	127.0.0.1	karthikpamidimari@gmail.com	\N	\N	\N	\N	\N	\N	2016-12-19 06:37:22.206866	2016-12-19 07:14:01.583836	ad22b6b614fdbb3067c36e00dc7cabb0e6e882a877a38f8e	\N	\N	\N	\N	\N
+1	77dea10ace2f0a6e7a263093984559ff15d5442a4b6eab2e885d9dad43e97df17062e74981413094690ea5583bcf8f4b483863dd1908d1b366eafe036a13d621	YVTj5BU8tYsSVrfyWzyD	spree@example.com	\N	\N	\N	\N	5	0	\N	2016-12-19 07:15:00.072656	2016-12-19 07:13:50.529017	127.0.0.1	127.0.0.1	spree@example.com	\N	\N	\N	\N	\N	\N	2016-12-19 05:17:08.097891	2016-12-19 07:15:00.074009	91ed2d1d908fe9664c0c3705b10b1b1652ed93f8c0e72195	\N	\N	\N	\N	\N
 \.
 
 
@@ -9529,10 +9653,10 @@ COPY spree_variants (id, sku, weight, height, width, depth, deleted_at, is_maste
 23	ROR-00007	0.00	\N	\N	\N	\N	f	3	17.00	8	USD	t	\N	2016-12-19 05:17:50.08326	1	\N
 16	SPR-00014	0.00	\N	\N	\N	\N	t	16	11.00	1	USD	t	\N	2016-12-19 05:17:55.664793	1	\N
 24	ROR-00008	0.00	\N	\N	\N	\N	f	3	17.00	9	USD	t	\N	2016-12-19 05:17:50.409017	1	\N
+2	ROR-00012	0.00	\N	\N	\N	\N	t	2	21.00	1	USD	t	\N	2016-12-19 07:19:50.330519	1	\N
 25	ROR-00009	0.00	\N	\N	\N	\N	f	3	17.00	10	USD	t	\N	2016-12-19 05:17:50.741154	1	\N
 26	ROR-00010	0.00	\N	\N	\N	\N	f	3	17.00	11	USD	t	\N	2016-12-19 05:17:51.062518	1	\N
 1	ROR-00011	0.00	\N	\N	\N	\N	t	1	17.00	1	USD	t	\N	2016-12-19 05:17:51.444566	1	\N
-2	ROR-00012	0.00	\N	\N	\N	\N	t	2	21.00	1	USD	t	\N	2016-12-19 05:17:51.60584	1	\N
 3	ROR-001	0.00	\N	\N	\N	\N	t	3	17.00	1	USD	t	\N	2016-12-19 05:17:51.927267	1	\N
 4	ROR-00013	0.00	\N	\N	\N	\N	t	4	17.00	1	USD	t	\N	2016-12-19 05:17:52.081404	1	\N
 13	ROR-00014	0.00	\N	\N	\N	\N	t	13	11.00	1	USD	t	\N	2016-12-19 05:17:52.397196	1	\N
@@ -9630,6 +9754,14 @@ ALTER TABLE ONLY spree_addresses
 
 ALTER TABLE ONLY spree_adjustments
     ADD CONSTRAINT spree_adjustments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: spree_assemblies_parts_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY spree_assemblies_parts
+    ADD CONSTRAINT spree_assemblies_parts_pkey PRIMARY KEY (id);
 
 
 --
@@ -9758,6 +9890,14 @@ ALTER TABLE ONLY spree_order_promotions
 
 ALTER TABLE ONLY spree_orders
     ADD CONSTRAINT spree_orders_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: spree_part_line_items_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY spree_part_line_items
+    ADD CONSTRAINT spree_part_line_items_pkey PRIMARY KEY (id);
 
 
 --
