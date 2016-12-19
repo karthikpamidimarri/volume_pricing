@@ -37,6 +37,7 @@ gem 'spree_auth_devise'
 gem 'spree_gateway'
 gem 'spree_social', github: 'spree-contrib/spree_social', branch: '3-1-stable'
 gem 'spree_product_assembly', github: 'spree-contrib/spree-product-assembly', branch: '3-1-stable'
+gem 'meta-tags'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
