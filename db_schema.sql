@@ -219,6 +219,45 @@ ALTER SEQUENCE spree_assets_id_seq OWNED BY spree_assets.id;
 
 
 --
+-- Name: spree_authentication_methods; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE spree_authentication_methods (
+    id integer NOT NULL,
+    environment character varying,
+    provider character varying,
+    api_key character varying,
+    api_secret character varying,
+    active boolean,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE spree_authentication_methods OWNER TO postgres;
+
+--
+-- Name: spree_authentication_methods_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE spree_authentication_methods_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE spree_authentication_methods_id_seq OWNER TO postgres;
+
+--
+-- Name: spree_authentication_methods_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE spree_authentication_methods_id_seq OWNED BY spree_authentication_methods.id;
+
+
+--
 -- Name: spree_calculators; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -2876,6 +2915,43 @@ ALTER SEQUENCE spree_trackers_id_seq OWNED BY spree_trackers.id;
 
 
 --
+-- Name: spree_user_authentications; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE spree_user_authentications (
+    id integer NOT NULL,
+    user_id integer,
+    provider character varying,
+    uid character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE spree_user_authentications OWNER TO postgres;
+
+--
+-- Name: spree_user_authentications_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE spree_user_authentications_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE spree_user_authentications_id_seq OWNER TO postgres;
+
+--
+-- Name: spree_user_authentications_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE spree_user_authentications_id_seq OWNED BY spree_user_authentications.id;
+
+
+--
 -- Name: spree_users; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -3086,6 +3162,13 @@ ALTER TABLE ONLY spree_adjustments ALTER COLUMN id SET DEFAULT nextval('spree_ad
 --
 
 ALTER TABLE ONLY spree_assets ALTER COLUMN id SET DEFAULT nextval('spree_assets_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY spree_authentication_methods ALTER COLUMN id SET DEFAULT nextval('spree_authentication_methods_id_seq'::regclass);
 
 
 --
@@ -3568,6 +3651,13 @@ ALTER TABLE ONLY spree_trackers ALTER COLUMN id SET DEFAULT nextval('spree_track
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
+ALTER TABLE ONLY spree_user_authentications ALTER COLUMN id SET DEFAULT nextval('spree_user_authentications_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
 ALTER TABLE ONLY spree_users ALTER COLUMN id SET DEFAULT nextval('spree_users_id_seq'::regclass);
 
 
@@ -3869,6 +3959,8 @@ COPY schema_migrations (version) FROM stdin;
 20161217191863
 20161217191864
 20161217191865
+20161219063422
+20161219063423
 \.
 
 
@@ -3967,6 +4059,22 @@ COPY spree_assets (id, viewable_id, viewable_type, attachment_width, attachment_
 --
 
 SELECT pg_catalog.setval('spree_assets_id_seq', 46, true);
+
+
+--
+-- Data for Name: spree_authentication_methods; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY spree_authentication_methods (id, environment, provider, api_key, api_secret, active, created_at, updated_at) FROM stdin;
+1	development	facebook	356123014753434	8d13ec843c99ab3f5a71132867334f90	t	2016-12-19 06:36:23.364491	2016-12-19 06:36:23.364491
+\.
+
+
+--
+-- Name: spree_authentication_methods_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('spree_authentication_methods_id_seq', 1, true);
 
 
 --
@@ -9365,11 +9473,28 @@ SELECT pg_catalog.setval('spree_trackers_id_seq', 1, false);
 
 
 --
+-- Data for Name: spree_user_authentications; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY spree_user_authentications (id, user_id, provider, uid, created_at, updated_at) FROM stdin;
+1	2	facebook	1207013422727081	2016-12-19 06:37:22.221163	2016-12-19 06:37:22.221163
+\.
+
+
+--
+-- Name: spree_user_authentications_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('spree_user_authentications_id_seq', 1, true);
+
+
+--
 -- Data for Name: spree_users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY spree_users (id, encrypted_password, password_salt, email, remember_token, persistence_token, reset_password_token, perishable_token, sign_in_count, failed_attempts, last_request_at, current_sign_in_at, last_sign_in_at, current_sign_in_ip, last_sign_in_ip, login, ship_address_id, bill_address_id, authentication_token, unlock_token, locked_at, reset_password_sent_at, created_at, updated_at, spree_api_key, remember_created_at, deleted_at, confirmation_token, confirmed_at, confirmation_sent_at) FROM stdin;
-1	77dea10ace2f0a6e7a263093984559ff15d5442a4b6eab2e885d9dad43e97df17062e74981413094690ea5583bcf8f4b483863dd1908d1b366eafe036a13d621	YVTj5BU8tYsSVrfyWzyD	spree@example.com	\N	\N	\N	\N	1	0	\N	2016-12-19 05:18:58.247004	2016-12-19 05:18:58.247004	127.0.0.1	127.0.0.1	spree@example.com	\N	\N	\N	\N	\N	\N	2016-12-19 05:17:08.097891	2016-12-19 05:18:58.247935	91ed2d1d908fe9664c0c3705b10b1b1652ed93f8c0e72195	\N	\N	\N	\N	\N
+1	77dea10ace2f0a6e7a263093984559ff15d5442a4b6eab2e885d9dad43e97df17062e74981413094690ea5583bcf8f4b483863dd1908d1b366eafe036a13d621	YVTj5BU8tYsSVrfyWzyD	spree@example.com	\N	\N	\N	\N	2	0	\N	2016-12-19 06:35:55.348144	2016-12-19 05:18:58.247004	127.0.0.1	127.0.0.1	spree@example.com	\N	\N	\N	\N	\N	\N	2016-12-19 05:17:08.097891	2016-12-19 06:35:55.349155	91ed2d1d908fe9664c0c3705b10b1b1652ed93f8c0e72195	\N	\N	\N	\N	\N
+2	\N	\N	karthikpamidimari@gmail.com	\N	\N	\N	\N	1	0	\N	2016-12-19 06:37:22.286488	2016-12-19 06:37:22.286488	127.0.0.1	127.0.0.1	karthikpamidimari@gmail.com	\N	\N	\N	\N	\N	\N	2016-12-19 06:37:22.206866	2016-12-19 06:37:22.287357	\N	\N	\N	\N	\N	\N
 \.
 
 
@@ -9377,7 +9502,7 @@ COPY spree_users (id, encrypted_password, password_salt, email, remember_token, 
 -- Name: spree_users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('spree_users_id_seq', 1, true);
+SELECT pg_catalog.setval('spree_users_id_seq', 2, true);
 
 
 --
@@ -9513,6 +9638,14 @@ ALTER TABLE ONLY spree_adjustments
 
 ALTER TABLE ONLY spree_assets
     ADD CONSTRAINT spree_assets_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: spree_authentication_methods_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY spree_authentication_methods
+    ADD CONSTRAINT spree_authentication_methods_pkey PRIMARY KEY (id);
 
 
 --
@@ -10057,6 +10190,14 @@ ALTER TABLE ONLY spree_taxons
 
 ALTER TABLE ONLY spree_trackers
     ADD CONSTRAINT spree_trackers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: spree_user_authentications_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY spree_user_authentications
+    ADD CONSTRAINT spree_user_authentications_pkey PRIMARY KEY (id);
 
 
 --
