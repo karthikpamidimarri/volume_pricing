@@ -2,6 +2,25 @@ Prefix Verb URI Pattern Controller#Action
  spree      /           Spree::Core::Engine
 
 Routes for Spree::Core::Engine:
+                    spree_user_omniauth_authorize GET|POST                  /users/auth/:provider(.:format)                                               spree/omniauth_callbacks#passthru {:provider=>/facebook|twitter|github|google_oauth2|amazon/}
+                     spree_user_omniauth_callback GET|POST                  /users/auth/:action/callback(.:format)                                        spree/omniauth_callbacks#(?-mix:facebook|twitter|github|google_oauth2|amazon)
+                             user_authentications GET                       /user_authentications(.:format)                                               spree/user_authentications#index
+                                                  POST                      /user_authentications(.:format)                                               spree/user_authentications#create
+                          new_user_authentication GET                       /user_authentications/new(.:format)                                           spree/user_authentications#new
+                         edit_user_authentication GET                       /user_authentications/:id/edit(.:format)                                      spree/user_authentications#edit
+                              user_authentication GET                       /user_authentications/:id(.:format)                                           spree/user_authentications#show
+                                                  PATCH                     /user_authentications/:id(.:format)                                           spree/user_authentications#update
+                                                  PUT                       /user_authentications/:id(.:format)                                           spree/user_authentications#update
+                                                  DELETE                    /user_authentications/:id(.:format)                                           spree/user_authentications#destroy
+                                        user_root GET                       /account(.:format)                                                            spree/users#show
+                     admin_authentication_methods GET                       /admin/authentication_methods(.:format)                                       spree/admin/authentication_methods#index
+                                                  POST                      /admin/authentication_methods(.:format)                                       spree/admin/authentication_methods#create
+                  new_admin_authentication_method GET                       /admin/authentication_methods/new(.:format)                                   spree/admin/authentication_methods#new
+                 edit_admin_authentication_method GET                       /admin/authentication_methods/:id/edit(.:format)                              spree/admin/authentication_methods#edit
+                      admin_authentication_method GET                       /admin/authentication_methods/:id(.:format)                                   spree/admin/authentication_methods#show
+                                                  PATCH                     /admin/authentication_methods/:id(.:format)                                   spree/admin/authentication_methods#update
+                                                  PUT                       /admin/authentication_methods/:id(.:format)                                   spree/admin/authentication_methods#update
+                                                  DELETE                    /admin/authentication_methods/:id(.:format)                                   spree/admin/authentication_methods#destroy
                      skrill_cancel_order_checkout GET                       /orders/:order_id/checkout/skrill_cancel(.:format)                            spree/checkout#skrill_cancel
                      skrill_return_order_checkout GET                       /orders/:order_id/checkout/skrill_return(.:format)                            spree/checkout#skrill_return
                                    order_checkout POST                      /orders/:order_id/checkout(.:format)                                          spree/checkout#create
