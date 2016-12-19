@@ -2,6 +2,27 @@ Prefix Verb URI Pattern Controller#Action
  spree      /           Spree::Core::Engine
 
 Routes for Spree::Core::Engine:
+                        select_admin_product_part POST                      /admin/products/:product_id/parts/:id/select(.:format)                        spree/admin/parts#select
+                        remove_admin_product_part POST                      /admin/products/:product_id/parts/:id/remove(.:format)                        spree/admin/parts#remove
+                     set_count_admin_product_part POST                      /admin/products/:product_id/parts/:id/set_count(.:format)                     spree/admin/parts#set_count
+                    available_admin_product_parts POST                      /admin/products/:product_id/parts/available(.:format)                         spree/admin/parts#available
+                     selected_admin_product_parts GET                       /admin/products/:product_id/parts/selected(.:format)                          spree/admin/parts#selected
+                              admin_product_parts GET                       /admin/products/:product_id/parts(.:format)                                   spree/admin/parts#index
+                                                  POST                      /admin/products/:product_id/parts(.:format)                                   spree/admin/parts#create
+                           new_admin_product_part GET                       /admin/products/:product_id/parts/new(.:format)                               spree/admin/parts#new
+                          edit_admin_product_part GET                       /admin/products/:product_id/parts/:id/edit(.:format)                          spree/admin/parts#edit
+                               admin_product_part GET                       /admin/products/:product_id/parts/:id(.:format)                               spree/admin/parts#show
+                                                  PATCH                     /admin/products/:product_id/parts/:id(.:format)                               spree/admin/parts#update
+                                                  PUT                       /admin/products/:product_id/parts/:id(.:format)                               spree/admin/parts#update
+                                                  DELETE                    /admin/products/:product_id/parts/:id(.:format)                               spree/admin/parts#destroy
+                                   admin_products GET                       /admin/products(.:format)                                                     spree/admin/products#index
+                                                  POST                      /admin/products(.:format)                                                     spree/admin/products#create
+                                new_admin_product GET                       /admin/products/new(.:format)                                                 spree/admin/products#new
+                               edit_admin_product GET                       /admin/products/:id/edit(.:format)                                            spree/admin/products#edit
+                                    admin_product GET                       /admin/products/:id(.:format)                                                 spree/admin/products#show
+                                                  PATCH                     /admin/products/:id(.:format)                                                 spree/admin/products#update
+                                                  PUT                       /admin/products/:id(.:format)                                                 spree/admin/products#update
+                                                  DELETE                    /admin/products/:id(.:format)                                                 spree/admin/products#destroy
                     spree_user_omniauth_authorize GET|POST                  /users/auth/:provider(.:format)                                               spree/omniauth_callbacks#passthru {:provider=>/facebook|twitter|github|google_oauth2|amazon/}
                      spree_user_omniauth_callback GET|POST                  /users/auth/:action/callback(.:format)                                        spree/omniauth_callbacks#(?-mix:facebook|twitter|github|google_oauth2|amazon)
                              user_authentications GET                       /user_authentications(.:format)                                               spree/user_authentications#index
@@ -202,11 +223,11 @@ update_positions_admin_product_product_properties POST                      /adm
                                                   DELETE                    /admin/products/:product_id/variants/:id(.:format)                            spree/admin/variants#destroy
           admin_product_variants_including_master PATCH                     /admin/products/:product_id/variants_including_master/:id(.:format)           spree/admin/variants_including_master#update
                                                   PUT                       /admin/products/:product_id/variants_including_master/:id(.:format)           spree/admin/variants_including_master#update
-                                   admin_products GET                       /admin/products(.:format)                                                     spree/admin/products#index
+                                                  GET                       /admin/products(.:format)                                                     spree/admin/products#index
                                                   POST                      /admin/products(.:format)                                                     spree/admin/products#create
-                                new_admin_product GET                       /admin/products/new(.:format)                                                 spree/admin/products#new
-                               edit_admin_product GET                       /admin/products/:id/edit(.:format)                                            spree/admin/products#edit
-                                    admin_product GET                       /admin/products/:id(.:format)                                                 spree/admin/products#show
+                                                  GET                       /admin/products/new(.:format)                                                 spree/admin/products#new
+                                                  GET                       /admin/products/:id/edit(.:format)                                            spree/admin/products#edit
+                                                  GET                       /admin/products/:id(.:format)                                                 spree/admin/products#show
                                                   PATCH                     /admin/products/:id(.:format)                                                 spree/admin/products#update
                                                   PUT                       /admin/products/:id(.:format)                                                 spree/admin/products#update
                                                   DELETE                    /admin/products/:id(.:format)                                                 spree/admin/products#destroy
