@@ -2,6 +2,7 @@ Prefix Verb URI Pattern Controller#Action
  spree      /           Spree::Core::Engine
 
 Routes for Spree::Core::Engine:
+                                      suggestions GET                       /suggestions(.:format)                                                        spree/suggestions#index
                         select_admin_product_part POST                      /admin/products/:product_id/parts/:id/select(.:format)                        spree/admin/parts#select
                         remove_admin_product_part POST                      /admin/products/:product_id/parts/:id/remove(.:format)                        spree/admin/parts#remove
                      set_count_admin_product_part POST                      /admin/products/:product_id/parts/:id/set_count(.:format)                     spree/admin/parts#set_count
