@@ -2786,6 +2786,43 @@ ALTER SEQUENCE spree_stores_id_seq OWNED BY spree_stores.id;
 
 
 --
+-- Name: spree_suggestions; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE spree_suggestions (
+    id integer NOT NULL,
+    keywords character varying,
+    count integer,
+    items_found integer,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
+);
+
+
+ALTER TABLE spree_suggestions OWNER TO postgres;
+
+--
+-- Name: spree_suggestions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE spree_suggestions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE spree_suggestions_id_seq OWNER TO postgres;
+
+--
+-- Name: spree_suggestions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE spree_suggestions_id_seq OWNED BY spree_suggestions.id;
+
+
+--
 -- Name: spree_tax_categories; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -3703,6 +3740,13 @@ ALTER TABLE ONLY spree_stores ALTER COLUMN id SET DEFAULT nextval('spree_stores_
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
+ALTER TABLE ONLY spree_suggestions ALTER COLUMN id SET DEFAULT nextval('spree_suggestions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
 ALTER TABLE ONLY spree_tax_categories ALTER COLUMN id SET DEFAULT nextval('spree_tax_categories_id_seq'::regclass);
 
 
@@ -3774,22 +3818,22 @@ ALTER TABLE ONLY spree_zones ALTER COLUMN id SET DEFAULT nextval('spree_zones_id
 --
 
 COPY friendly_id_slugs (id, slug, sluggable_id, sluggable_type, scope, created_at, deleted_at) FROM stdin;
-1	ruby-on-rails-tote	1	Spree::Product	\N	2016-12-19 05:17:39.975937	\N
-2	ruby-on-rails-bag	2	Spree::Product	\N	2016-12-19 05:17:40.118873	\N
-3	ruby-on-rails-baseball-jersey	3	Spree::Product	\N	2016-12-19 05:17:40.305302	\N
-4	ruby-on-rails-jr-spaghetti	4	Spree::Product	\N	2016-12-19 05:17:40.44149	\N
-5	ruby-on-rails-ringer-t-shirt	5	Spree::Product	\N	2016-12-19 05:17:40.593619	\N
-6	ruby-baseball-jersey	6	Spree::Product	\N	2016-12-19 05:17:40.715247	\N
-7	apache-baseball-jersey	7	Spree::Product	\N	2016-12-19 05:17:40.852625	\N
-8	spree-baseball-jersey	8	Spree::Product	\N	2016-12-19 05:17:41.00504	\N
-9	spree-jr-spaghetti	9	Spree::Product	\N	2016-12-19 05:17:41.138311	\N
-10	spree-ringer-t-shirt	10	Spree::Product	\N	2016-12-19 05:17:41.271611	\N
-11	spree-tote	11	Spree::Product	\N	2016-12-19 05:17:41.401171	\N
-12	spree-bag	12	Spree::Product	\N	2016-12-19 05:17:41.532738	\N
-13	ruby-on-rails-mug	13	Spree::Product	\N	2016-12-19 05:17:41.676832	\N
-14	ruby-on-rails-stein	14	Spree::Product	\N	2016-12-19 05:17:41.809649	\N
-15	spree-stein	15	Spree::Product	\N	2016-12-19 05:17:41.939382	\N
-16	spree-mug	16	Spree::Product	\N	2016-12-19 05:17:42.0732	\N
+1	ruby-on-rails-tote	1	Spree::Product	\N	2016-12-17 19:17:08.983651	\N
+2	ruby-on-rails-bag	2	Spree::Product	\N	2016-12-17 19:17:09.0852	\N
+3	ruby-on-rails-baseball-jersey	3	Spree::Product	\N	2016-12-17 19:17:09.193497	\N
+4	ruby-on-rails-jr-spaghetti	4	Spree::Product	\N	2016-12-17 19:17:09.297211	\N
+5	ruby-on-rails-ringer-t-shirt	5	Spree::Product	\N	2016-12-17 19:17:09.393041	\N
+6	ruby-baseball-jersey	6	Spree::Product	\N	2016-12-17 19:17:09.501236	\N
+7	apache-baseball-jersey	7	Spree::Product	\N	2016-12-17 19:17:09.609098	\N
+8	spree-baseball-jersey	8	Spree::Product	\N	2016-12-17 19:17:09.712842	\N
+9	spree-jr-spaghetti	9	Spree::Product	\N	2016-12-17 19:17:09.817967	\N
+10	spree-ringer-t-shirt	10	Spree::Product	\N	2016-12-17 19:17:09.920659	\N
+11	spree-tote	11	Spree::Product	\N	2016-12-17 19:17:10.020599	\N
+12	spree-bag	12	Spree::Product	\N	2016-12-17 19:17:10.121837	\N
+13	ruby-on-rails-mug	13	Spree::Product	\N	2016-12-17 19:17:10.216281	\N
+14	ruby-on-rails-stein	14	Spree::Product	\N	2016-12-17 19:17:10.32053	\N
+15	spree-stein	15	Spree::Product	\N	2016-12-17 19:17:10.419988	\N
+16	spree-mug	16	Spree::Product	\N	2016-12-17 19:17:10.51988	\N
 \.
 
 
@@ -4054,6 +4098,7 @@ COPY schema_migrations (version) FROM stdin;
 20161219071107
 20161219071108
 20161219071109
+20161220053311
 \.
 
 
@@ -4062,8 +4107,8 @@ COPY schema_migrations (version) FROM stdin;
 --
 
 COPY spree_addresses (id, firstname, lastname, address1, address2, city, zipcode, phone, state_name, alternative_phone, company, state_id, country_id, created_at, updated_at) FROM stdin;
-1	Monserrat	Stark	60496 Adrian Corners	Apt. 084	Lake Eliane	16804	954-080-1199 x41022	\N	\N	\N	3561	232	2016-12-19 05:17:55.85115	2016-12-19 05:17:55.85115
-2	Robin	O'Kon	1265 Will Mount	Apt. 306	East Scarlett	16804	862.474.1502 x399	\N	\N	\N	3561	232	2016-12-19 05:17:55.86968	2016-12-19 05:17:55.86968
+1	Alexandro	Ruecker	8269 Khalil Burg	Apt. 248	East Antoninafort	16804	1-215-302-5528 x687	\N	\N	\N	3561	232	2016-12-17 19:17:20.460606	2016-12-17 19:17:20.460606
+2	Edna	Torp	36326 Naomie Fords	Apt. 323	New Adela	16804	440-948-4694	\N	\N	\N	3561	232	2016-12-17 19:17:20.473863	2016-12-17 19:17:20.473863
 \.
 
 
@@ -4079,10 +4124,10 @@ SELECT pg_catalog.setval('spree_addresses_id_seq', 2, true);
 --
 
 COPY spree_adjustments (id, source_id, source_type, adjustable_id, adjustable_type, amount, label, mandatory, eligible, created_at, updated_at, state, order_id, included) FROM stdin;
-2	1	Spree::TaxRate	1	Spree::LineItem	0.80	North America 5.0%	\N	t	2016-12-19 05:17:56.207567	2016-12-19 05:17:56.860404	open	1	f
-5	1	Spree::TaxRate	1	Spree::Order	0.84	Tax	t	t	2016-12-19 05:17:56.674388	2016-12-19 05:17:56.882752	open	1	f
-4	1	Spree::TaxRate	2	Spree::LineItem	1.15	North America 5.0%	\N	t	2016-12-19 05:17:56.315313	2016-12-19 05:17:57.325044	open	2	f
-6	1	Spree::TaxRate	2	Spree::Order	1.21	Tax	t	t	2016-12-19 05:17:56.724044	2016-12-19 05:17:57.347053	open	2	f
+2	1	Spree::TaxRate	1	Spree::LineItem	0.80	North America 5.0%	\N	t	2016-12-17 19:17:20.654065	2016-12-17 19:17:21.036566	open	1	f
+5	1	Spree::TaxRate	1	Spree::Order	0.84	Tax	t	t	2016-12-17 19:17:20.903213	2016-12-17 19:17:21.053714	open	1	f
+4	1	Spree::TaxRate	2	Spree::LineItem	1.15	North America 5.0%	\N	t	2016-12-17 19:17:20.700888	2016-12-17 19:17:21.502282	open	2	f
+6	1	Spree::TaxRate	2	Spree::Order	1.21	Tax	t	t	2016-12-17 19:17:20.927697	2016-12-17 19:17:21.51021	open	2	f
 \.
 
 
@@ -4098,7 +4143,7 @@ SELECT pg_catalog.setval('spree_adjustments_id_seq', 6, true);
 --
 
 COPY spree_assemblies_parts (assembly_id, part_id, count, id, variant_selection_deferred) FROM stdin;
-2	6	1	1	\N
+7	13	1	2	\N
 \.
 
 
@@ -4106,7 +4151,7 @@ COPY spree_assemblies_parts (assembly_id, part_id, count, id, variant_selection_
 -- Name: spree_assemblies_parts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('spree_assemblies_parts_id_seq', 1, true);
+SELECT pg_catalog.setval('spree_assemblies_parts_id_seq', 2, true);
 
 
 --
@@ -4114,52 +4159,52 @@ SELECT pg_catalog.setval('spree_assemblies_parts_id_seq', 1, true);
 --
 
 COPY spree_assets (id, viewable_id, viewable_type, attachment_width, attachment_height, attachment_file_size, "position", attachment_content_type, attachment_file_name, type, attachment_updated_at, alt, created_at, updated_at) FROM stdin;
-1	17	Spree::Variant	240	240	44463	1	image/png	ror_baseball_jersey_red.png	Spree::Image	2016-12-19 05:17:47.447601	\N	2016-12-19 05:17:47.888062	2016-12-19 05:17:47.888062
-2	17	Spree::Variant	240	240	36895	2	image/png	ror_baseball_jersey_back_red.png	Spree::Image	2016-12-19 05:17:47.93912	\N	2016-12-19 05:17:48.066945	2016-12-19 05:17:48.066945
-3	18	Spree::Variant	240	240	46277	1	image/png	ror_baseball_jersey_blue.png	Spree::Image	2016-12-19 05:17:48.096101	\N	2016-12-19 05:17:48.240124	2016-12-19 05:17:48.240124
-4	18	Spree::Variant	240	240	38424	2	image/png	ror_baseball_jersey_back_blue.png	Spree::Image	2016-12-19 05:17:48.281111	\N	2016-12-19 05:17:48.410239	2016-12-19 05:17:48.410239
-5	19	Spree::Variant	240	240	45744	1	image/png	ror_baseball_jersey_green.png	Spree::Image	2016-12-19 05:17:48.450294	\N	2016-12-19 05:17:48.578624	2016-12-19 05:17:48.578624
-6	19	Spree::Variant	240	240	39641	2	image/png	ror_baseball_jersey_back_green.png	Spree::Image	2016-12-19 05:17:48.611071	\N	2016-12-19 05:17:48.735812	2016-12-19 05:17:48.735812
-7	20	Spree::Variant	240	240	44463	1	image/png	ror_baseball_jersey_red.png	Spree::Image	2016-12-19 05:17:48.770035	\N	2016-12-19 05:17:48.899021	2016-12-19 05:17:48.899021
-8	20	Spree::Variant	240	240	36895	2	image/png	ror_baseball_jersey_back_red.png	Spree::Image	2016-12-19 05:17:48.931189	\N	2016-12-19 05:17:49.066255	2016-12-19 05:17:49.066255
-9	21	Spree::Variant	240	240	46277	1	image/png	ror_baseball_jersey_blue.png	Spree::Image	2016-12-19 05:17:49.100789	\N	2016-12-19 05:17:49.230523	2016-12-19 05:17:49.230523
-10	21	Spree::Variant	240	240	38424	2	image/png	ror_baseball_jersey_back_blue.png	Spree::Image	2016-12-19 05:17:49.262136	\N	2016-12-19 05:17:49.389594	2016-12-19 05:17:49.389594
-11	22	Spree::Variant	240	240	45744	1	image/png	ror_baseball_jersey_green.png	Spree::Image	2016-12-19 05:17:49.432807	\N	2016-12-19 05:17:49.581115	2016-12-19 05:17:49.581115
-12	22	Spree::Variant	240	240	39641	2	image/png	ror_baseball_jersey_back_green.png	Spree::Image	2016-12-19 05:17:49.61567	\N	2016-12-19 05:17:49.743277	2016-12-19 05:17:49.743277
-13	23	Spree::Variant	240	240	44463	1	image/png	ror_baseball_jersey_red.png	Spree::Image	2016-12-19 05:17:49.785687	\N	2016-12-19 05:17:49.914545	2016-12-19 05:17:49.914545
-14	23	Spree::Variant	240	240	36895	2	image/png	ror_baseball_jersey_back_red.png	Spree::Image	2016-12-19 05:17:49.946804	\N	2016-12-19 05:17:50.078527	2016-12-19 05:17:50.078527
-15	24	Spree::Variant	240	240	46277	1	image/png	ror_baseball_jersey_blue.png	Spree::Image	2016-12-19 05:17:50.116286	\N	2016-12-19 05:17:50.250287	2016-12-19 05:17:50.250287
-16	24	Spree::Variant	240	240	38424	2	image/png	ror_baseball_jersey_back_blue.png	Spree::Image	2016-12-19 05:17:50.277826	\N	2016-12-19 05:17:50.405062	2016-12-19 05:17:50.405062
-17	25	Spree::Variant	240	240	45744	1	image/png	ror_baseball_jersey_green.png	Spree::Image	2016-12-19 05:17:50.436354	\N	2016-12-19 05:17:50.58213	2016-12-19 05:17:50.58213
-18	25	Spree::Variant	240	240	39641	2	image/png	ror_baseball_jersey_back_green.png	Spree::Image	2016-12-19 05:17:50.609339	\N	2016-12-19 05:17:50.737191	2016-12-19 05:17:50.737191
-19	26	Spree::Variant	240	240	45744	1	image/png	ror_baseball_jersey_green.png	Spree::Image	2016-12-19 05:17:50.767241	\N	2016-12-19 05:17:50.898696	2016-12-19 05:17:50.898696
-20	26	Spree::Variant	240	240	39641	2	image/png	ror_baseball_jersey_back_green.png	Spree::Image	2016-12-19 05:17:50.929911	\N	2016-12-19 05:17:51.058668	2016-12-19 05:17:51.058668
-21	1	Spree::Variant	360	360	31490	1	image/jpeg	ror_tote.jpeg	Spree::Image	2016-12-19 05:17:51.107907	\N	2016-12-19 05:17:51.276799	2016-12-19 05:17:51.276799
-22	1	Spree::Variant	360	360	28620	2	image/jpeg	ror_tote_back.jpeg	Spree::Image	2016-12-19 05:17:51.316781	\N	2016-12-19 05:17:51.440133	2016-12-19 05:17:51.440133
-23	2	Spree::Variant	360	360	28230	1	image/jpeg	ror_bag.jpeg	Spree::Image	2016-12-19 05:17:51.482628	\N	2016-12-19 05:17:51.601709	2016-12-19 05:17:51.601709
-24	3	Spree::Variant	360	360	27626	1	image/jpeg	ror_baseball.jpeg	Spree::Image	2016-12-19 05:17:51.638502	\N	2016-12-19 05:17:51.766495	2016-12-19 05:17:51.766495
-25	3	Spree::Variant	360	360	23490	2	image/jpeg	ror_baseball_back.jpeg	Spree::Image	2016-12-19 05:17:51.803363	\N	2016-12-19 05:17:51.922882	2016-12-19 05:17:51.922882
-26	4	Spree::Variant	360	360	14083	1	image/jpeg	ror_jr_spaghetti.jpeg	Spree::Image	2016-12-19 05:17:51.957446	\N	2016-12-19 05:17:52.076524	2016-12-19 05:17:52.076524
-27	13	Spree::Variant	360	360	20026	1	image/jpeg	ror_mug.jpeg	Spree::Image	2016-12-19 05:17:52.113039	\N	2016-12-19 05:17:52.242596	2016-12-19 05:17:52.242596
-28	13	Spree::Variant	360	360	10929	2	image/jpeg	ror_mug_back.jpeg	Spree::Image	2016-12-19 05:17:52.277385	\N	2016-12-19 05:17:52.392767	2016-12-19 05:17:52.392767
-29	5	Spree::Variant	360	360	18252	1	image/jpeg	ror_ringer.jpeg	Spree::Image	2016-12-19 05:17:52.432613	\N	2016-12-19 05:17:52.556796	2016-12-19 05:17:52.556796
-30	5	Spree::Variant	360	360	13276	2	image/jpeg	ror_ringer_back.jpeg	Spree::Image	2016-12-19 05:17:52.598475	\N	2016-12-19 05:17:52.720512	2016-12-19 05:17:52.720512
-31	14	Spree::Variant	360	360	20714	1	image/jpeg	ror_stein.jpeg	Spree::Image	2016-12-19 05:17:52.753629	\N	2016-12-19 05:17:52.883138	2016-12-19 05:17:52.883138
-32	14	Spree::Variant	360	360	20619	2	image/jpeg	ror_stein_back.jpeg	Spree::Image	2016-12-19 05:17:52.918498	\N	2016-12-19 05:17:53.033396	2016-12-19 05:17:53.033396
-33	7	Spree::Variant	504	484	123779	1	image/png	apache_baseball.png	Spree::Image	2016-12-19 05:17:53.085051	\N	2016-12-19 05:17:53.34122	2016-12-19 05:17:53.34122
-34	6	Spree::Variant	495	477	138622	1	image/png	ruby_baseball.png	Spree::Image	2016-12-19 05:17:53.373265	\N	2016-12-19 05:17:53.624619	2016-12-19 05:17:53.624619
-35	12	Spree::Variant	480	480	38369	1	image/jpeg	spree_bag.jpeg	Spree::Image	2016-12-19 05:17:53.659977	\N	2016-12-19 05:17:53.816999	2016-12-19 05:17:53.816999
-36	11	Spree::Variant	480	480	44579	1	image/jpeg	spree_tote_front.jpeg	Spree::Image	2016-12-19 05:17:53.859042	\N	2016-12-19 05:17:54.026808	2016-12-19 05:17:54.026808
-37	11	Spree::Variant	480	480	16947	2	image/jpeg	spree_tote_back.jpeg	Spree::Image	2016-12-19 05:17:54.067833	\N	2016-12-19 05:17:54.205054	2016-12-19 05:17:54.205054
-38	10	Spree::Variant	480	480	17641	1	image/jpeg	spree_ringer_t.jpeg	Spree::Image	2016-12-19 05:17:54.245315	\N	2016-12-19 05:17:54.3709	2016-12-19 05:17:54.3709
-39	10	Spree::Variant	480	480	10514	2	image/jpeg	spree_ringer_t_back.jpeg	Spree::Image	2016-12-19 05:17:54.399638	\N	2016-12-19 05:17:54.531364	2016-12-19 05:17:54.531364
-40	9	Spree::Variant	480	480	5898	1	image/jpeg	spree_spaghetti.jpeg	Spree::Image	2016-12-19 05:17:54.565607	\N	2016-12-19 05:17:54.690584	2016-12-19 05:17:54.690584
-41	8	Spree::Variant	480	480	18012	1	image/jpeg	spree_jersey.jpeg	Spree::Image	2016-12-19 05:17:54.731983	\N	2016-12-19 05:17:54.868971	2016-12-19 05:17:54.868971
-42	8	Spree::Variant	480	480	17868	2	image/jpeg	spree_jersey_back.jpeg	Spree::Image	2016-12-19 05:17:54.90771	\N	2016-12-19 05:17:55.045456	2016-12-19 05:17:55.045456
-43	15	Spree::Variant	480	480	12999	1	image/jpeg	spree_stein.jpeg	Spree::Image	2016-12-19 05:17:55.074632	\N	2016-12-19 05:17:55.200952	2016-12-19 05:17:55.200952
-44	15	Spree::Variant	480	480	12687	2	image/jpeg	spree_stein_back.jpeg	Spree::Image	2016-12-19 05:17:55.251516	\N	2016-12-19 05:17:55.389309	2016-12-19 05:17:55.389309
-45	16	Spree::Variant	240	240	4148	1	image/jpeg	spree_mug.jpeg	Spree::Image	2016-12-19 05:17:55.449954	\N	2016-12-19 05:17:55.535993	2016-12-19 05:17:55.535993
-46	16	Spree::Variant	240	240	4428	2	image/jpeg	spree_mug_back.jpeg	Spree::Image	2016-12-19 05:17:55.570796	\N	2016-12-19 05:17:55.659775	2016-12-19 05:17:55.659775
+1	17	Spree::Variant	240	240	44463	1	image/png	ror_baseball_jersey_red.png	Spree::Image	2016-12-17 19:17:14.250727	\N	2016-12-17 19:17:14.556461	2016-12-17 19:17:14.556461
+2	17	Spree::Variant	240	240	36895	2	image/png	ror_baseball_jersey_back_red.png	Spree::Image	2016-12-17 19:17:14.62169	\N	2016-12-17 19:17:14.706184	2016-12-17 19:17:14.706184
+3	18	Spree::Variant	240	240	46277	1	image/png	ror_baseball_jersey_blue.png	Spree::Image	2016-12-17 19:17:14.758098	\N	2016-12-17 19:17:14.870883	2016-12-17 19:17:14.870883
+4	18	Spree::Variant	240	240	38424	2	image/png	ror_baseball_jersey_back_blue.png	Spree::Image	2016-12-17 19:17:14.913008	\N	2016-12-17 19:17:14.996566	2016-12-17 19:17:14.996566
+5	19	Spree::Variant	240	240	45744	1	image/png	ror_baseball_jersey_green.png	Spree::Image	2016-12-17 19:17:15.032355	\N	2016-12-17 19:17:15.11606	2016-12-17 19:17:15.11606
+6	19	Spree::Variant	240	240	39641	2	image/png	ror_baseball_jersey_back_green.png	Spree::Image	2016-12-17 19:17:15.14607	\N	2016-12-17 19:17:15.228219	2016-12-17 19:17:15.228219
+7	20	Spree::Variant	240	240	44463	1	image/png	ror_baseball_jersey_red.png	Spree::Image	2016-12-17 19:17:15.273875	\N	2016-12-17 19:17:15.357873	2016-12-17 19:17:15.357873
+8	20	Spree::Variant	240	240	36895	2	image/png	ror_baseball_jersey_back_red.png	Spree::Image	2016-12-17 19:17:15.395902	\N	2016-12-17 19:17:15.479237	2016-12-17 19:17:15.479237
+9	21	Spree::Variant	240	240	46277	1	image/png	ror_baseball_jersey_blue.png	Spree::Image	2016-12-17 19:17:15.514861	\N	2016-12-17 19:17:15.599666	2016-12-17 19:17:15.599666
+10	21	Spree::Variant	240	240	38424	2	image/png	ror_baseball_jersey_back_blue.png	Spree::Image	2016-12-17 19:17:15.629001	\N	2016-12-17 19:17:15.711297	2016-12-17 19:17:15.711297
+11	22	Spree::Variant	240	240	45744	1	image/png	ror_baseball_jersey_green.png	Spree::Image	2016-12-17 19:17:15.765331	\N	2016-12-17 19:17:15.870837	2016-12-17 19:17:15.870837
+12	22	Spree::Variant	240	240	39641	2	image/png	ror_baseball_jersey_back_green.png	Spree::Image	2016-12-17 19:17:15.895386	\N	2016-12-17 19:17:15.979305	2016-12-17 19:17:15.979305
+13	23	Spree::Variant	240	240	44463	1	image/png	ror_baseball_jersey_red.png	Spree::Image	2016-12-17 19:17:16.050124	\N	2016-12-17 19:17:16.135261	2016-12-17 19:17:16.135261
+14	23	Spree::Variant	240	240	36895	2	image/png	ror_baseball_jersey_back_red.png	Spree::Image	2016-12-17 19:17:16.195135	\N	2016-12-17 19:17:16.278566	2016-12-17 19:17:16.278566
+15	24	Spree::Variant	240	240	46277	1	image/png	ror_baseball_jersey_blue.png	Spree::Image	2016-12-17 19:17:16.322786	\N	2016-12-17 19:17:16.407041	2016-12-17 19:17:16.407041
+16	24	Spree::Variant	240	240	38424	2	image/png	ror_baseball_jersey_back_blue.png	Spree::Image	2016-12-17 19:17:16.461606	\N	2016-12-17 19:17:16.544183	2016-12-17 19:17:16.544183
+17	25	Spree::Variant	240	240	45744	1	image/png	ror_baseball_jersey_green.png	Spree::Image	2016-12-17 19:17:16.597697	\N	2016-12-17 19:17:16.681582	2016-12-17 19:17:16.681582
+18	25	Spree::Variant	240	240	39641	2	image/png	ror_baseball_jersey_back_green.png	Spree::Image	2016-12-17 19:17:16.744702	\N	2016-12-17 19:17:16.830008	2016-12-17 19:17:16.830008
+19	26	Spree::Variant	240	240	45744	1	image/png	ror_baseball_jersey_green.png	Spree::Image	2016-12-17 19:17:16.872539	\N	2016-12-17 19:17:16.958532	2016-12-17 19:17:16.958532
+20	26	Spree::Variant	240	240	39641	2	image/png	ror_baseball_jersey_back_green.png	Spree::Image	2016-12-17 19:17:16.99465	\N	2016-12-17 19:17:17.081123	2016-12-17 19:17:17.081123
+21	1	Spree::Variant	360	360	31490	1	image/jpeg	ror_tote.jpeg	Spree::Image	2016-12-17 19:17:17.111278	\N	2016-12-17 19:17:17.223912	2016-12-17 19:17:17.223912
+22	1	Spree::Variant	360	360	28620	2	image/jpeg	ror_tote_back.jpeg	Spree::Image	2016-12-17 19:17:17.260676	\N	2016-12-17 19:17:17.343672	2016-12-17 19:17:17.343672
+23	2	Spree::Variant	360	360	28230	1	image/jpeg	ror_bag.jpeg	Spree::Image	2016-12-17 19:17:17.378223	\N	2016-12-17 19:17:17.457537	2016-12-17 19:17:17.457537
+24	3	Spree::Variant	360	360	27626	1	image/jpeg	ror_baseball.jpeg	Spree::Image	2016-12-17 19:17:17.494591	\N	2016-12-17 19:17:17.573531	2016-12-17 19:17:17.573531
+25	3	Spree::Variant	360	360	23490	2	image/jpeg	ror_baseball_back.jpeg	Spree::Image	2016-12-17 19:17:17.602103	\N	2016-12-17 19:17:17.678737	2016-12-17 19:17:17.678737
+26	4	Spree::Variant	360	360	14083	1	image/jpeg	ror_jr_spaghetti.jpeg	Spree::Image	2016-12-17 19:17:17.735232	\N	2016-12-17 19:17:17.807863	2016-12-17 19:17:17.807863
+27	13	Spree::Variant	360	360	20026	1	image/jpeg	ror_mug.jpeg	Spree::Image	2016-12-17 19:17:17.852153	\N	2016-12-17 19:17:17.926711	2016-12-17 19:17:17.926711
+28	13	Spree::Variant	360	360	10929	2	image/jpeg	ror_mug_back.jpeg	Spree::Image	2016-12-17 19:17:17.959818	\N	2016-12-17 19:17:18.028945	2016-12-17 19:17:18.028945
+29	5	Spree::Variant	360	360	18252	1	image/jpeg	ror_ringer.jpeg	Spree::Image	2016-12-17 19:17:18.068611	\N	2016-12-17 19:17:18.14428	2016-12-17 19:17:18.14428
+30	5	Spree::Variant	360	360	13276	2	image/jpeg	ror_ringer_back.jpeg	Spree::Image	2016-12-17 19:17:18.176417	\N	2016-12-17 19:17:18.248883	2016-12-17 19:17:18.248883
+31	14	Spree::Variant	360	360	20714	1	image/jpeg	ror_stein.jpeg	Spree::Image	2016-12-17 19:17:18.345142	\N	2016-12-17 19:17:18.419946	2016-12-17 19:17:18.419946
+32	14	Spree::Variant	360	360	20619	2	image/jpeg	ror_stein_back.jpeg	Spree::Image	2016-12-17 19:17:18.459431	\N	2016-12-17 19:17:18.532103	2016-12-17 19:17:18.532103
+33	7	Spree::Variant	504	484	123779	1	image/png	apache_baseball.png	Spree::Image	2016-12-17 19:17:18.601821	\N	2016-12-17 19:17:18.760002	2016-12-17 19:17:18.760002
+34	6	Spree::Variant	495	477	138622	1	image/png	ruby_baseball.png	Spree::Image	2016-12-17 19:17:18.793384	\N	2016-12-17 19:17:18.957367	2016-12-17 19:17:18.957367
+35	12	Spree::Variant	480	480	38369	1	image/jpeg	spree_bag.jpeg	Spree::Image	2016-12-17 19:17:18.984542	\N	2016-12-17 19:17:19.07758	2016-12-17 19:17:19.07758
+36	11	Spree::Variant	480	480	44579	1	image/jpeg	spree_tote_front.jpeg	Spree::Image	2016-12-17 19:17:19.126562	\N	2016-12-17 19:17:19.231211	2016-12-17 19:17:19.231211
+37	11	Spree::Variant	480	480	16947	2	image/jpeg	spree_tote_back.jpeg	Spree::Image	2016-12-17 19:17:19.266787	\N	2016-12-17 19:17:19.352898	2016-12-17 19:17:19.352898
+38	10	Spree::Variant	480	480	17641	1	image/jpeg	spree_ringer_t.jpeg	Spree::Image	2016-12-17 19:17:19.392179	\N	2016-12-17 19:17:19.46947	2016-12-17 19:17:19.46947
+39	10	Spree::Variant	480	480	10514	2	image/jpeg	spree_ringer_t_back.jpeg	Spree::Image	2016-12-17 19:17:19.500166	\N	2016-12-17 19:17:19.581671	2016-12-17 19:17:19.581671
+40	9	Spree::Variant	480	480	5898	1	image/jpeg	spree_spaghetti.jpeg	Spree::Image	2016-12-17 19:17:19.608589	\N	2016-12-17 19:17:19.685595	2016-12-17 19:17:19.685595
+41	8	Spree::Variant	480	480	18012	1	image/jpeg	spree_jersey.jpeg	Spree::Image	2016-12-17 19:17:19.717012	\N	2016-12-17 19:17:19.802232	2016-12-17 19:17:19.802232
+42	8	Spree::Variant	480	480	17868	2	image/jpeg	spree_jersey_back.jpeg	Spree::Image	2016-12-17 19:17:19.849681	\N	2016-12-17 19:17:19.933657	2016-12-17 19:17:19.933657
+43	15	Spree::Variant	480	480	12999	1	image/jpeg	spree_stein.jpeg	Spree::Image	2016-12-17 19:17:19.991689	\N	2016-12-17 19:17:20.069907	2016-12-17 19:17:20.069907
+44	15	Spree::Variant	480	480	12687	2	image/jpeg	spree_stein_back.jpeg	Spree::Image	2016-12-17 19:17:20.124594	\N	2016-12-17 19:17:20.203024	2016-12-17 19:17:20.203024
+45	16	Spree::Variant	240	240	4148	1	image/jpeg	spree_mug.jpeg	Spree::Image	2016-12-17 19:17:20.241585	\N	2016-12-17 19:17:20.293745	2016-12-17 19:17:20.293745
+46	16	Spree::Variant	240	240	4428	2	image/jpeg	spree_mug_back.jpeg	Spree::Image	2016-12-17 19:17:20.332988	\N	2016-12-17 19:17:20.385328	2016-12-17 19:17:20.385328
 \.
 
 
@@ -4175,7 +4220,7 @@ SELECT pg_catalog.setval('spree_assets_id_seq', 46, true);
 --
 
 COPY spree_authentication_methods (id, environment, provider, api_key, api_secret, active, created_at, updated_at) FROM stdin;
-1	development	facebook	356123014753434	8d13ec843c99ab3f5a71132867334f90	t	2016-12-19 06:36:23.364491	2016-12-19 06:36:23.364491
+1	development	facebook	356123014753434	8d13ec843c99ab3f5a71132867334f90	t	2016-12-20 04:00:32.94267	2016-12-20 04:00:32.94267
 \.
 
 
@@ -4191,12 +4236,12 @@ SELECT pg_catalog.setval('spree_authentication_methods_id_seq', 1, true);
 --
 
 COPY spree_calculators (id, type, calculable_id, calculable_type, created_at, updated_at, preferences, deleted_at) FROM stdin;
-1	Spree::Calculator::Shipping::FlatRate	1	Spree::ShippingMethod	2016-12-19 05:17:39.101866	2016-12-19 05:17:39.382414	---\n:amount: 5\n:currency: USD\n	\N
-4	Spree::Calculator::Shipping::FlatRate	4	Spree::ShippingMethod	2016-12-19 05:17:39.135768	2016-12-19 05:17:39.409601	---\n:amount: 5\n:currency: USD\n	\N
-3	Spree::Calculator::Shipping::FlatRate	3	Spree::ShippingMethod	2016-12-19 05:17:39.124754	2016-12-19 05:17:39.427718	---\n:amount: 15\n:currency: USD\n	\N
-2	Spree::Calculator::Shipping::FlatRate	2	Spree::ShippingMethod	2016-12-19 05:17:39.113509	2016-12-19 05:17:39.450505	---\n:amount: 10\n:currency: USD\n	\N
-5	Spree::Calculator::Shipping::FlatRate	5	Spree::ShippingMethod	2016-12-19 05:17:39.146589	2016-12-19 05:17:39.474578	---\n:amount: 8\n:currency: EUR\n	\N
-6	Spree::Calculator::DefaultTax	1	Spree::TaxRate	2016-12-19 05:17:39.632266	2016-12-19 05:17:39.64097	\N	\N
+1	Spree::Calculator::Shipping::FlatRate	1	Spree::ShippingMethod	2016-12-17 19:17:08.143573	2016-12-17 19:17:08.594668	---\n:amount: 5\n:currency: USD\n	\N
+4	Spree::Calculator::Shipping::FlatRate	4	Spree::ShippingMethod	2016-12-17 19:17:08.167828	2016-12-17 19:17:08.606728	---\n:amount: 5\n:currency: USD\n	\N
+3	Spree::Calculator::Shipping::FlatRate	3	Spree::ShippingMethod	2016-12-17 19:17:08.159292	2016-12-17 19:17:08.620807	---\n:amount: 15\n:currency: USD\n	\N
+2	Spree::Calculator::Shipping::FlatRate	2	Spree::ShippingMethod	2016-12-17 19:17:08.151109	2016-12-17 19:17:08.628845	---\n:amount: 10\n:currency: USD\n	\N
+5	Spree::Calculator::Shipping::FlatRate	5	Spree::ShippingMethod	2016-12-17 19:17:08.175888	2016-12-17 19:17:08.637257	---\n:amount: 8\n:currency: EUR\n	\N
+6	Spree::Calculator::DefaultTax	1	Spree::TaxRate	2016-12-17 19:17:08.735662	2016-12-17 19:17:08.742617	\N	\N
 \.
 
 
@@ -4475,7 +4520,7 @@ SELECT pg_catalog.setval('spree_countries_id_seq', 248, true);
 --
 
 COPY spree_credit_cards (id, month, year, cc_type, last_digits, address_id, gateway_customer_profile_id, gateway_payment_profile_id, created_at, updated_at, name, user_id, payment_method_id, "default") FROM stdin;
-1	12	2018	visa	1111	\N	BGS-1234	\N	2016-12-19 05:17:56.790618	2016-12-19 05:17:56.790618	Sean Schofield	\N	\N	f
+1	12	2018	visa	1111	\N	BGS-1234	\N	2016-12-17 19:17:20.993236	2016-12-17 19:17:20.993236	Sean Schofield	\N	\N	f
 \.
 
 
@@ -4521,8 +4566,8 @@ SELECT pg_catalog.setval('spree_gateways_id_seq', 1, false);
 --
 
 COPY spree_inventory_units (id, state, variant_id, order_id, shipment_id, created_at, updated_at, pending, line_item_id) FROM stdin;
-1	on_hand	1	1	1	2016-12-19 05:17:56.488924	2016-12-19 05:17:56.488924	t	1
-2	on_hand	2	2	2	2016-12-19 05:17:56.58181	2016-12-19 05:17:56.58181	t	2
+1	on_hand	1	1	1	2016-12-17 19:17:20.798168	2016-12-17 19:17:20.798168	t	1
+2	on_hand	2	2	2	2016-12-17 19:17:20.8499	2016-12-17 19:17:20.8499	t	2
 \.
 
 
@@ -4538,8 +4583,8 @@ SELECT pg_catalog.setval('spree_inventory_units_id_seq', 2, true);
 --
 
 COPY spree_line_items (id, variant_id, order_id, quantity, price, created_at, updated_at, currency, cost_price, tax_category_id, adjustment_total, additional_tax_total, promo_total, included_tax_total, pre_tax_amount, taxable_adjustment_total, non_taxable_adjustment_total) FROM stdin;
-1	1	1	1	15.99	2016-12-19 05:17:55.991938	2016-12-19 05:17:56.840608	USD	17.00	1	0.80	0.80	0.00	0.00	15.9900	0.00	0.00
-2	2	2	1	22.99	2016-12-19 05:17:56.243337	2016-12-19 05:17:57.304788	USD	21.00	1	1.15	1.15	0.00	0.00	22.9900	0.00	0.00
+1	1	1	1	15.99	2016-12-17 19:17:20.554101	2016-12-17 19:17:21.022347	USD	17.00	1	0.80	0.80	0.00	0.00	15.9900	0.00	0.00
+2	2	2	1	22.99	2016-12-17 19:17:20.669898	2016-12-17 19:17:21.488556	USD	21.00	1	1.15	1.15	0.00	0.00	22.9900	0.00	0.00
 \.
 
 
@@ -4585,8 +4630,8 @@ SELECT pg_catalog.setval('spree_option_type_prototypes_id_seq', 1, false);
 --
 
 COPY spree_option_types (id, name, presentation, "position", created_at, updated_at) FROM stdin;
-1	tshirt-size	Size	1	2016-12-19 05:17:43.212242	2016-12-19 05:17:43.31753
-2	tshirt-color	Color	2	2016-12-19 05:17:43.226672	2016-12-19 05:17:43.372487
+1	tshirt-size	Size	1	2016-12-17 19:17:11.413558	2016-12-17 19:17:11.474208
+2	tshirt-color	Color	2	2016-12-17 19:17:11.423059	2016-12-17 19:17:11.498873
 \.
 
 
@@ -4637,13 +4682,13 @@ SELECT pg_catalog.setval('spree_option_value_variants_id_seq', 20, true);
 --
 
 COPY spree_option_values (id, "position", name, presentation, option_type_id, created_at, updated_at) FROM stdin;
-1	1	Small	S	1	2016-12-19 05:17:43.251839	2016-12-19 05:17:43.251839
-2	2	Medium	M	1	2016-12-19 05:17:43.281266	2016-12-19 05:17:43.281266
-3	3	Large	L	1	2016-12-19 05:17:43.293095	2016-12-19 05:17:43.293095
-4	4	Extra Large	XL	1	2016-12-19 05:17:43.314815	2016-12-19 05:17:43.314815
-5	1	Red	Red	2	2016-12-19 05:17:43.336834	2016-12-19 05:17:43.336834
-6	2	Green	Green	2	2016-12-19 05:17:43.358876	2016-12-19 05:17:43.358876
-7	3	Blue	Blue	2	2016-12-19 05:17:43.370189	2016-12-19 05:17:43.370189
+1	1	Small	S	1	2016-12-17 19:17:11.438997	2016-12-17 19:17:11.438997
+2	2	Medium	M	1	2016-12-17 19:17:11.456623	2016-12-17 19:17:11.456623
+3	3	Large	L	1	2016-12-17 19:17:11.464762	2016-12-17 19:17:11.464762
+4	4	Extra Large	XL	1	2016-12-17 19:17:11.473009	2016-12-17 19:17:11.473009
+5	1	Red	Red	2	2016-12-17 19:17:11.481311	2016-12-17 19:17:11.481311
+6	2	Green	Green	2	2016-12-17 19:17:11.489748	2016-12-17 19:17:11.489748
+7	3	Blue	Blue	2	2016-12-17 19:17:11.497973	2016-12-17 19:17:11.497973
 \.
 
 
@@ -4674,8 +4719,8 @@ SELECT pg_catalog.setval('spree_order_promotions_id_seq', 1, false);
 --
 
 COPY spree_orders (id, number, item_total, total, state, adjustment_total, user_id, completed_at, bill_address_id, ship_address_id, payment_total, shipment_state, payment_state, email, special_instructions, created_at, updated_at, currency, last_ip_address, created_by_id, shipment_total, additional_tax_total, promo_total, channel, included_tax_total, item_count, approver_id, approved_at, confirmation_delivered, considered_risky, guest_token, canceled_at, canceler_id, store_id, state_lock_version, taxable_adjustment_total, non_taxable_adjustment_total) FROM stdin;
-1	R123456789	15.99	22.63	complete	1.64	\N	2016-12-18 05:17:56.597138	2	1	0.00	pending	balance_due	spree@example.com	\N	2016-12-19 05:17:55.91827	2016-12-19 05:17:57.259318	USD	\N	\N	5.00	0.80	0.00	spree	0.00	0	\N	\N	f	f	hVUAAmrtQYc5ojlOPW5JeQ1482124675918	\N	\N	\N	0	0.00	0.00
-2	R987654321	22.99	30.35	complete	2.36	\N	2016-12-18 05:17:56.630551	2	1	0.00	pending	balance_due	spree@example.com	\N	2016-12-19 05:17:55.946978	2016-12-19 05:17:57.61968	USD	\N	\N	5.00	1.15	0.00	spree	0.00	0	\N	\N	f	f	g4nLzmgU0ZzkO33m_r5PCg1482124675947	\N	\N	\N	0	0.00	0.00
+1	R123456789	15.99	22.63	complete	1.64	\N	2016-12-16 19:17:20.864171	2	1	0.00	pending	balance_due	spree@example.com	\N	2016-12-17 19:17:20.50586	2016-12-17 19:17:21.459353	USD	\N	\N	5.00	0.80	0.00	spree	0.00	0	\N	\N	f	f	RSm_i9xNPnbQCEoG09-MaA1482002240506	\N	\N	\N	0	0.00	0.00
+2	R987654321	22.99	30.35	complete	2.36	\N	2016-12-16 19:17:20.880797	2	1	0.00	pending	balance_due	spree@example.com	\N	2016-12-17 19:17:20.521244	2016-12-17 19:17:21.68397	USD	\N	\N	5.00	1.15	0.00	spree	0.00	0	\N	\N	f	f	FJJyvIZgfjOmuNRzN0NIsg1482002240521	\N	\N	\N	0	0.00	0.00
 \.
 
 
@@ -4721,9 +4766,9 @@ SELECT pg_catalog.setval('spree_payment_capture_events_id_seq', 1, false);
 --
 
 COPY spree_payment_methods (id, type, name, description, active, deleted_at, created_at, updated_at, display_on, auto_capture, preferences, "position") FROM stdin;
-1	Spree::PaymentMethod::StoreCredit	Store Credit	Store Credit	t	\N	2016-12-19 05:16:49.42066	2016-12-19 05:16:49.42066	back_end	\N	\N	1
-2	Spree::Gateway::Bogus	Credit Card	Bogus payment gateway.	t	\N	2016-12-19 05:17:38.986956	2016-12-19 05:17:38.986956	both	\N	---\n:server: test\n:test_mode: true\n	2
-3	Spree::PaymentMethod::Check	Check	Pay by check.	t	\N	2016-12-19 05:17:39.030529	2016-12-19 05:17:39.030529	both	\N	\N	3
+1	Spree::PaymentMethod::StoreCredit	Store Credit	Store Credit	t	\N	2016-12-17 19:16:57.303175	2016-12-17 19:16:57.303175	back_end	\N	\N	1
+2	Spree::Gateway::Bogus	Credit Card	Bogus payment gateway.	t	\N	2016-12-17 19:17:08.06165	2016-12-17 19:17:08.06165	both	\N	---\n:server: test\n:test_mode: true\n	2
+3	Spree::PaymentMethod::Check	Check	Pay by check.	t	\N	2016-12-17 19:17:08.096321	2016-12-17 19:17:08.096321	both	\N	\N	3
 \.
 
 
@@ -4739,8 +4784,8 @@ SELECT pg_catalog.setval('spree_payment_methods_id_seq', 3, true);
 --
 
 COPY spree_payments (id, amount, order_id, source_id, source_type, payment_method_id, state, response_code, avs_response, created_at, updated_at, number, cvv_response_code, cvv_response_message) FROM stdin;
-1	22.63	1	1	Spree::CreditCard	2	pending	12345	\N	2016-12-19 05:17:57.166654	2016-12-19 05:17:57.166654	PAN4PBI9	\N	\N
-2	30.35	2	1	Spree::CreditCard	2	pending	12345	\N	2016-12-19 05:17:57.531437	2016-12-19 05:17:57.531437	PW813QL6	\N	\N
+1	22.63	1	1	Spree::CreditCard	2	pending	12345	\N	2016-12-17 19:17:21.407684	2016-12-17 19:17:21.407684	P1V40FH5	\N	\N
+2	30.35	2	1	Spree::CreditCard	2	pending	12345	\N	2016-12-17 19:17:21.632891	2016-12-17 19:17:21.632891	PLS552II	\N	\N
 \.
 
 
@@ -4756,8 +4801,8 @@ SELECT pg_catalog.setval('spree_payments_id_seq', 2, true);
 --
 
 COPY spree_preferences (id, value, key, created_at, updated_at) FROM stdin;
-1	--- 232\n...\n	spree/app_configuration/default_country_id	2016-12-19 05:17:04.088415	2016-12-19 05:17:04.088415
-2	--- USD\n...\n	spree/app_configuration/currency	2016-12-19 05:17:39.677626	2016-12-19 05:17:42.160352
+1	--- 232\n...\n	spree/app_configuration/default_country_id	2016-12-17 19:17:02.256765	2016-12-17 19:17:02.256765
+2	--- USD\n...\n	spree/app_configuration/currency	2016-12-17 19:17:08.75597	2016-12-17 19:17:10.599579
 \.
 
 
@@ -4830,10 +4875,10 @@ SELECT pg_catalog.setval('spree_prices_id_seq', 42, true);
 --
 
 COPY spree_product_option_types (id, "position", product_id, option_type_id, created_at, updated_at) FROM stdin;
-1	1	3	1	2016-12-19 05:17:43.405731	2016-12-19 05:17:43.405731
-2	2	3	2	2016-12-19 05:17:43.409631	2016-12-19 05:17:43.409631
-3	1	8	1	2016-12-19 05:17:43.435892	2016-12-19 05:17:43.435892
-4	2	8	2	2016-12-19 05:17:43.439074	2016-12-19 05:17:43.439074
+1	1	3	1	2016-12-17 19:17:11.513603	2016-12-17 19:17:11.513603
+2	2	3	2	2016-12-17 19:17:11.516032	2016-12-17 19:17:11.516032
+3	1	8	1	2016-12-17 19:17:11.529986	2016-12-17 19:17:11.529986
+4	2	8	2	2016-12-17 19:17:11.532042	2016-12-17 19:17:11.532042
 \.
 
 
@@ -4864,72 +4909,72 @@ SELECT pg_catalog.setval('spree_product_promotion_rules_id_seq', 1, false);
 --
 
 COPY spree_product_properties (id, value, product_id, property_id, created_at, updated_at, "position") FROM stdin;
-1	Wilson	3	1	2016-12-19 05:17:43.48302	2016-12-19 05:17:43.48302	1
-2	Wannabe Sports	3	2	2016-12-19 05:17:43.517767	2016-12-19 05:17:43.517767	2
-3	JK1002	3	3	2016-12-19 05:17:43.549866	2016-12-19 05:17:43.549866	3
-4	Baseball Jersey	3	4	2016-12-19 05:17:43.571524	2016-12-19 05:17:43.571524	4
-5	Long	3	5	2016-12-19 05:17:43.593839	2016-12-19 05:17:43.593839	5
-6	100% cotton	3	6	2016-12-19 05:17:43.616374	2016-12-19 05:17:43.616374	6
-7	Loose	3	7	2016-12-19 05:17:43.637941	2016-12-19 05:17:43.637941	7
-8	Men's	3	8	2016-12-19 05:17:43.660236	2016-12-19 05:17:43.660236	8
-9	Jerseys	4	1	2016-12-19 05:17:43.681776	2016-12-19 05:17:43.681776	1
-10	Resiliance	4	2	2016-12-19 05:17:43.702816	2016-12-19 05:17:43.702816	2
-11	TL174	4	3	2016-12-19 05:17:43.747169	2016-12-19 05:17:43.747169	3
-12	Jr. Spaghetti T	4	4	2016-12-19 05:17:43.780097	2016-12-19 05:17:43.780097	4
-13	None	4	5	2016-12-19 05:17:43.802817	2016-12-19 05:17:43.802817	5
-14	90% Cotton, 10% Nylon	4	6	2016-12-19 05:17:43.823524	2016-12-19 05:17:43.823524	6
-15	Form	4	7	2016-12-19 05:17:43.84623	2016-12-19 05:17:43.84623	7
-16	Women's	4	8	2016-12-19 05:17:43.868279	2016-12-19 05:17:43.868279	8
-17	Jerseys	5	1	2016-12-19 05:17:43.891737	2016-12-19 05:17:43.891737	1
-18	Conditioned	5	2	2016-12-19 05:17:43.923221	2016-12-19 05:17:43.923221	2
-19	TL9002	5	3	2016-12-19 05:17:43.944988	2016-12-19 05:17:43.944988	3
-20	Ringer T	5	4	2016-12-19 05:17:43.966843	2016-12-19 05:17:43.966843	4
-21	Short	5	5	2016-12-19 05:17:43.989523	2016-12-19 05:17:43.989523	5
-22	100% Vellum	5	6	2016-12-19 05:17:44.01131	2016-12-19 05:17:44.01131	6
-23	Loose	5	7	2016-12-19 05:17:44.033643	2016-12-19 05:17:44.033643	7
-24	Men's	5	8	2016-12-19 05:17:44.055756	2016-12-19 05:17:44.055756	8
-25	Tote	1	9	2016-12-19 05:17:44.080226	2016-12-19 05:17:44.080226	1
-26	15" x 18" x 6"	1	10	2016-12-19 05:17:44.112394	2016-12-19 05:17:44.112394	2
-27	Canvas	1	11	2016-12-19 05:17:44.146144	2016-12-19 05:17:44.146144	3
-28	Messenger	2	9	2016-12-19 05:17:44.178821	2016-12-19 05:17:44.178821	1
-29	14 1/2" x 12" x 5"	2	10	2016-12-19 05:17:44.210404	2016-12-19 05:17:44.210404	2
-30	600 Denier Polyester	2	11	2016-12-19 05:17:44.243285	2016-12-19 05:17:44.243285	3
-31	Mug	13	9	2016-12-19 05:17:44.266688	2016-12-19 05:17:44.266688	1
-32	4.5" tall, 3.25" dia.	13	10	2016-12-19 05:17:44.298272	2016-12-19 05:17:44.298272	2
-33	Stein	14	9	2016-12-19 05:17:44.322397	2016-12-19 05:17:44.322397	1
-34	6.75" tall, 3.75" dia. base, 3" dia. rim	14	10	2016-12-19 05:17:44.35286	2016-12-19 05:17:44.35286	2
-35	Stein	15	9	2016-12-19 05:17:44.388146	2016-12-19 05:17:44.388146	1
-36	6.75" tall, 3.75" dia. base, 3" dia. rim	15	10	2016-12-19 05:17:44.408437	2016-12-19 05:17:44.408437	2
-37	Mug	16	9	2016-12-19 05:17:44.431173	2016-12-19 05:17:44.431173	1
-38	4.5" tall, 3.25" dia.	16	10	2016-12-19 05:17:44.451402	2016-12-19 05:17:44.451402	2
-39	Tote	11	9	2016-12-19 05:17:44.474398	2016-12-19 05:17:44.474398	1
-40	15" x 18" x 6"	11	10	2016-12-19 05:17:44.495664	2016-12-19 05:17:44.495664	2
-41	Messenger	12	9	2016-12-19 05:17:44.518484	2016-12-19 05:17:44.518484	1
-42	14 1/2" x 12" x 5"	12	10	2016-12-19 05:17:44.5396	2016-12-19 05:17:44.5396	2
-43	Wilson	8	1	2016-12-19 05:17:44.562583	2016-12-19 05:17:44.562583	1
-44	Wannabe Sports	8	2	2016-12-19 05:17:44.583639	2016-12-19 05:17:44.583639	2
-45	JK1002	8	3	2016-12-19 05:17:44.605758	2016-12-19 05:17:44.605758	3
-46	Baseball Jersey	8	4	2016-12-19 05:17:44.627845	2016-12-19 05:17:44.627845	4
-47	Long	8	5	2016-12-19 05:17:44.649701	2016-12-19 05:17:44.649701	5
-48	100% cotton	8	6	2016-12-19 05:17:44.671939	2016-12-19 05:17:44.671939	6
-49	Loose	8	7	2016-12-19 05:17:44.693955	2016-12-19 05:17:44.693955	7
-50	Men's	8	8	2016-12-19 05:17:44.717485	2016-12-19 05:17:44.717485	8
-51	Jerseys	9	1	2016-12-19 05:17:44.740462	2016-12-19 05:17:44.740462	1
-52	Resiliance	9	2	2016-12-19 05:17:44.77202	2016-12-19 05:17:44.77202	2
-53	TL174	9	3	2016-12-19 05:17:44.794038	2016-12-19 05:17:44.794038	3
-54	Jr. Spaghetti T	9	4	2016-12-19 05:17:44.816395	2016-12-19 05:17:44.816395	4
-55	None	9	5	2016-12-19 05:17:44.838557	2016-12-19 05:17:44.838557	5
-56	90% Cotton, 10% Nylon	9	6	2016-12-19 05:17:44.860263	2016-12-19 05:17:44.860263	6
-57	Form	9	7	2016-12-19 05:17:44.882487	2016-12-19 05:17:44.882487	7
-58	Women's	9	8	2016-12-19 05:17:44.904673	2016-12-19 05:17:44.904673	8
-59	Jerseys	10	1	2016-12-19 05:17:44.927932	2016-12-19 05:17:44.927932	1
-60	Conditioned	10	2	2016-12-19 05:17:44.948508	2016-12-19 05:17:44.948508	2
-61	TL9002	10	3	2016-12-19 05:17:44.970789	2016-12-19 05:17:44.970789	3
-62	Ringer T	10	4	2016-12-19 05:17:44.991983	2016-12-19 05:17:44.991983	4
-63	Short	10	5	2016-12-19 05:17:45.014835	2016-12-19 05:17:45.014835	5
-64	100% Vellum	10	6	2016-12-19 05:17:45.036722	2016-12-19 05:17:45.036722	6
-65	Loose	10	7	2016-12-19 05:17:45.058942	2016-12-19 05:17:45.058942	7
-66	Men's	10	8	2016-12-19 05:17:45.080267	2016-12-19 05:17:45.080267	8
+1	Wilson	3	1	2016-12-17 19:17:11.559822	2016-12-17 19:17:11.559822	1
+2	Wannabe Sports	3	2	2016-12-17 19:17:11.575003	2016-12-17 19:17:11.575003	2
+3	JK1002	3	3	2016-12-17 19:17:11.59164	2016-12-17 19:17:11.59164	3
+4	Baseball Jersey	3	4	2016-12-17 19:17:11.608072	2016-12-17 19:17:11.608072	4
+5	Long	3	5	2016-12-17 19:17:11.624846	2016-12-17 19:17:11.624846	5
+6	100% cotton	3	6	2016-12-17 19:17:11.641503	2016-12-17 19:17:11.641503	6
+7	Loose	3	7	2016-12-17 19:17:11.658017	2016-12-17 19:17:11.658017	7
+8	Men's	3	8	2016-12-17 19:17:11.674642	2016-12-17 19:17:11.674642	8
+9	Jerseys	4	1	2016-12-17 19:17:11.700292	2016-12-17 19:17:11.700292	1
+10	Resiliance	4	2	2016-12-17 19:17:11.715748	2016-12-17 19:17:11.715748	2
+11	TL174	4	3	2016-12-17 19:17:11.73263	2016-12-17 19:17:11.73263	3
+12	Jr. Spaghetti T	4	4	2016-12-17 19:17:11.749066	2016-12-17 19:17:11.749066	4
+13	None	4	5	2016-12-17 19:17:11.765595	2016-12-17 19:17:11.765595	5
+14	90% Cotton, 10% Nylon	4	6	2016-12-17 19:17:11.782382	2016-12-17 19:17:11.782382	6
+15	Form	4	7	2016-12-17 19:17:11.799056	2016-12-17 19:17:11.799056	7
+16	Women's	4	8	2016-12-17 19:17:11.815766	2016-12-17 19:17:11.815766	8
+17	Jerseys	5	1	2016-12-17 19:17:11.833076	2016-12-17 19:17:11.833076	1
+18	Conditioned	5	2	2016-12-17 19:17:11.848919	2016-12-17 19:17:11.848919	2
+19	TL9002	5	3	2016-12-17 19:17:11.865512	2016-12-17 19:17:11.865512	3
+20	Ringer T	5	4	2016-12-17 19:17:11.882267	2016-12-17 19:17:11.882267	4
+21	Short	5	5	2016-12-17 19:17:11.898903	2016-12-17 19:17:11.898903	5
+22	100% Vellum	5	6	2016-12-17 19:17:11.915591	2016-12-17 19:17:11.915591	6
+23	Loose	5	7	2016-12-17 19:17:11.932466	2016-12-17 19:17:11.932466	7
+24	Men's	5	8	2016-12-17 19:17:11.949089	2016-12-17 19:17:11.949089	8
+25	Tote	1	9	2016-12-17 19:17:11.966995	2016-12-17 19:17:11.966995	1
+26	15" x 18" x 6"	1	10	2016-12-17 19:17:11.983084	2016-12-17 19:17:11.983084	2
+27	Canvas	1	11	2016-12-17 19:17:11.999949	2016-12-17 19:17:11.999949	3
+28	Messenger	2	9	2016-12-17 19:17:12.016642	2016-12-17 19:17:12.016642	1
+29	14 1/2" x 12" x 5"	2	10	2016-12-17 19:17:12.032302	2016-12-17 19:17:12.032302	2
+30	600 Denier Polyester	2	11	2016-12-17 19:17:12.049106	2016-12-17 19:17:12.049106	3
+31	Mug	13	9	2016-12-17 19:17:12.066698	2016-12-17 19:17:12.066698	1
+32	4.5" tall, 3.25" dia.	13	10	2016-12-17 19:17:12.082998	2016-12-17 19:17:12.082998	2
+33	Stein	14	9	2016-12-17 19:17:12.100585	2016-12-17 19:17:12.100585	1
+34	6.75" tall, 3.75" dia. base, 3" dia. rim	14	10	2016-12-17 19:17:12.115956	2016-12-17 19:17:12.115956	2
+35	Stein	15	9	2016-12-17 19:17:12.132829	2016-12-17 19:17:12.132829	1
+36	6.75" tall, 3.75" dia. base, 3" dia. rim	15	10	2016-12-17 19:17:12.148807	2016-12-17 19:17:12.148807	2
+37	Mug	16	9	2016-12-17 19:17:12.166092	2016-12-17 19:17:12.166092	1
+38	4.5" tall, 3.25" dia.	16	10	2016-12-17 19:17:12.182197	2016-12-17 19:17:12.182197	2
+39	Tote	11	9	2016-12-17 19:17:12.199489	2016-12-17 19:17:12.199489	1
+40	15" x 18" x 6"	11	10	2016-12-17 19:17:12.215472	2016-12-17 19:17:12.215472	2
+41	Messenger	12	9	2016-12-17 19:17:12.232765	2016-12-17 19:17:12.232765	1
+42	14 1/2" x 12" x 5"	12	10	2016-12-17 19:17:12.248831	2016-12-17 19:17:12.248831	2
+43	Wilson	8	1	2016-12-17 19:17:12.265956	2016-12-17 19:17:12.265956	1
+44	Wannabe Sports	8	2	2016-12-17 19:17:12.282047	2016-12-17 19:17:12.282047	2
+45	JK1002	8	3	2016-12-17 19:17:12.298747	2016-12-17 19:17:12.298747	3
+46	Baseball Jersey	8	4	2016-12-17 19:17:12.31523	2016-12-17 19:17:12.31523	4
+47	Long	8	5	2016-12-17 19:17:12.332131	2016-12-17 19:17:12.332131	5
+48	100% cotton	8	6	2016-12-17 19:17:12.34876	2016-12-17 19:17:12.34876	6
+49	Loose	8	7	2016-12-17 19:17:12.36535	2016-12-17 19:17:12.36535	7
+50	Men's	8	8	2016-12-17 19:17:12.381913	2016-12-17 19:17:12.381913	8
+51	Jerseys	9	1	2016-12-17 19:17:12.399074	2016-12-17 19:17:12.399074	1
+52	Resiliance	9	2	2016-12-17 19:17:12.415221	2016-12-17 19:17:12.415221	2
+53	TL174	9	3	2016-12-17 19:17:12.432015	2016-12-17 19:17:12.432015	3
+54	Jr. Spaghetti T	9	4	2016-12-17 19:17:12.449059	2016-12-17 19:17:12.449059	4
+55	None	9	5	2016-12-17 19:17:12.4654	2016-12-17 19:17:12.4654	5
+56	90% Cotton, 10% Nylon	9	6	2016-12-17 19:17:12.481989	2016-12-17 19:17:12.481989	6
+57	Form	9	7	2016-12-17 19:17:12.498497	2016-12-17 19:17:12.498497	7
+58	Women's	9	8	2016-12-17 19:17:12.51522	2016-12-17 19:17:12.51522	8
+59	Jerseys	10	1	2016-12-17 19:17:12.532679	2016-12-17 19:17:12.532679	1
+60	Conditioned	10	2	2016-12-17 19:17:12.548644	2016-12-17 19:17:12.548644	2
+61	TL9002	10	3	2016-12-17 19:17:12.565034	2016-12-17 19:17:12.565034	3
+62	Ringer T	10	4	2016-12-17 19:17:12.581671	2016-12-17 19:17:12.581671	4
+63	Short	10	5	2016-12-17 19:17:12.598335	2016-12-17 19:17:12.598335	5
+64	100% Vellum	10	6	2016-12-17 19:17:12.615042	2016-12-17 19:17:12.615042	6
+65	Loose	10	7	2016-12-17 19:17:12.631838	2016-12-17 19:17:12.631838	7
+66	Men's	10	8	2016-12-17 19:17:12.648245	2016-12-17 19:17:12.648245	8
 \.
 
 
@@ -4945,22 +4990,22 @@ SELECT pg_catalog.setval('spree_product_properties_id_seq', 66, true);
 --
 
 COPY spree_products (id, name, description, available_on, deleted_at, slug, meta_description, meta_keywords, tax_category_id, shipping_category_id, created_at, updated_at, promotionable, meta_title, discontinue_on, can_be_part, individual_sale) FROM stdin;
-15	Spree Stein	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	spree-stein	\N	\N	\N	1	2016-12-19 05:17:41.910012	2016-12-19 05:17:55.39625	t	\N	\N	f	t
-14	Ruby on Rails Stein	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	ruby-on-rails-stein	\N	\N	\N	1	2016-12-19 05:17:41.778042	2016-12-19 05:17:53.040157	t	\N	\N	f	t
-1	Ruby on Rails Tote	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	ruby-on-rails-tote	\N	\N	1	1	2016-12-19 05:17:39.815691	2016-12-19 05:17:51.447073	t	\N	\N	f	t
-7	Apache Baseball Jersey	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	apache-baseball-jersey	\N	\N	1	1	2016-12-19 05:17:40.820336	2016-12-19 05:17:53.347791	t	\N	\N	f	t
-3	Ruby on Rails Baseball Jersey	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	ruby-on-rails-baseball-jersey	\N	\N	1	1	2016-12-19 05:17:40.277706	2016-12-19 05:17:51.929822	t	\N	\N	f	t
-12	Spree Bag	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	spree-bag	\N	\N	1	1	2016-12-19 05:17:41.502741	2016-12-19 05:17:53.823845	t	\N	\N	f	t
-4	Ruby on Rails Jr. Spaghetti	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	ruby-on-rails-jr-spaghetti	\N	\N	1	1	2016-12-19 05:17:40.412706	2016-12-19 05:17:52.084459	t	\N	\N	f	t
-16	Spree Mug	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	spree-mug	\N	\N	\N	1	2016-12-19 05:17:42.041639	2016-12-19 05:17:55.667226	t	\N	\N	f	t
-11	Spree Tote	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	spree-tote	\N	\N	1	1	2016-12-19 05:17:41.370898	2016-12-19 05:17:54.212971	t	\N	\N	f	t
-13	Ruby on Rails Mug	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	ruby-on-rails-mug	\N	\N	\N	1	2016-12-19 05:17:41.645955	2016-12-19 05:17:52.400156	t	\N	\N	f	t
-5	Ruby on Rails Ringer T-Shirt	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	ruby-on-rails-ringer-t-shirt	\N	\N	1	1	2016-12-19 05:17:40.566351	2016-12-19 05:17:52.727618	t	\N	\N	f	t
-10	Spree Ringer T-Shirt	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	spree-ringer-t-shirt	\N	\N	1	1	2016-12-19 05:17:41.239331	2016-12-19 05:17:54.538761	t	\N	\N	f	t
-9	Spree Jr. Spaghetti	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	spree-jr-spaghetti	\N	\N	1	1	2016-12-19 05:17:41.106843	2016-12-19 05:17:54.698342	t	\N	\N	f	t
-8	Spree Baseball Jersey	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	spree-baseball-jersey	\N	\N	1	1	2016-12-19 05:17:40.974971	2016-12-19 05:17:55.051821	t	\N	\N	f	t
-6	Ruby Baseball Jersey	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 00:00:00	\N	ruby-baseball-jersey			1	1	2016-12-19 05:17:40.687762	2016-12-19 07:16:22.327562	t		\N	t	t
-2	Ruby on Rails Bag	Qui harum nobis ut earum. Corrupti recusandae officiis aut et pariatur minus aut aspernatur. Ullam officiis maiores fugiat unde consequatur.	2016-12-19 05:17:39.670423	\N	ruby-on-rails-bag	\N	\N	1	1	2016-12-19 05:17:40.08535	2016-12-19 07:19:50.333022	t	\N	\N	f	t
+4	Ruby on Rails Jr. Spaghetti	Voluptatem recusandae voluptatem dolorem facilis itaque quisquam fuga placeat. Incidunt iusto labore voluptatibus ut magnam eos. Autem eos quia totam molestiae omnis dolores voluptatem fuga.	2016-12-17 19:17:08.751348	\N	ruby-on-rails-jr-spaghetti	\N	\N	1	1	2016-12-17 19:17:09.280214	2016-12-17 19:17:17.812408	t	\N	\N	f	t
+9	Spree Jr. Spaghetti	Voluptatem recusandae voluptatem dolorem facilis itaque quisquam fuga placeat. Incidunt iusto labore voluptatibus ut magnam eos. Autem eos quia totam molestiae omnis dolores voluptatem fuga.	2016-12-17 19:17:08.751348	\N	spree-jr-spaghetti	\N	\N	1	1	2016-12-17 19:17:09.801471	2016-12-17 19:17:19.690465	t	\N	\N	f	t
+12	Spree Bag	Voluptatem recusandae voluptatem dolorem facilis itaque quisquam fuga placeat. Incidunt iusto labore voluptatibus ut magnam eos. Autem eos quia totam molestiae omnis dolores voluptatem fuga.	2016-12-17 19:17:08.751348	\N	spree-bag	\N	\N	1	1	2016-12-17 19:17:10.105056	2016-12-17 19:17:19.082782	t	\N	\N	f	t
+8	Spree Baseball Jersey	Voluptatem recusandae voluptatem dolorem facilis itaque quisquam fuga placeat. Incidunt iusto labore voluptatibus ut magnam eos. Autem eos quia totam molestiae omnis dolores voluptatem fuga.	2016-12-17 19:17:08.751348	\N	spree-baseball-jersey	\N	\N	1	1	2016-12-17 19:17:09.696466	2016-12-17 19:17:19.938886	t	\N	\N	f	t
+5	Ruby on Rails Ringer T-Shirt	Voluptatem recusandae voluptatem dolorem facilis itaque quisquam fuga placeat. Incidunt iusto labore voluptatibus ut magnam eos. Autem eos quia totam molestiae omnis dolores voluptatem fuga.	2016-12-17 19:17:08.751348	\N	ruby-on-rails-ringer-t-shirt	\N	\N	1	1	2016-12-17 19:17:09.376514	2016-12-17 19:17:18.254535	t	\N	\N	f	t
+1	Ruby on Rails Tote	Voluptatem recusandae voluptatem dolorem facilis itaque quisquam fuga placeat. Incidunt iusto labore voluptatibus ut magnam eos. Autem eos quia totam molestiae omnis dolores voluptatem fuga.	2016-12-17 19:17:08.751348	\N	ruby-on-rails-tote	\N	\N	1	1	2016-12-17 19:17:08.872515	2016-12-17 19:17:17.349678	t	\N	\N	f	t
+15	Spree Stein	Voluptatem recusandae voluptatem dolorem facilis itaque quisquam fuga placeat. Incidunt iusto labore voluptatibus ut magnam eos. Autem eos quia totam molestiae omnis dolores voluptatem fuga.	2016-12-17 19:17:08.751348	\N	spree-stein	\N	\N	\N	1	2016-12-17 19:17:10.403991	2016-12-17 19:17:20.207872	t	\N	\N	f	t
+11	Spree Tote	Voluptatem recusandae voluptatem dolorem facilis itaque quisquam fuga placeat. Incidunt iusto labore voluptatibus ut magnam eos. Autem eos quia totam molestiae omnis dolores voluptatem fuga.	2016-12-17 19:17:08.751348	\N	spree-tote	\N	\N	1	1	2016-12-17 19:17:10.004406	2016-12-17 19:17:19.357221	t	\N	\N	f	t
+2	Ruby on Rails Bag	Voluptatem recusandae voluptatem dolorem facilis itaque quisquam fuga placeat. Incidunt iusto labore voluptatibus ut magnam eos. Autem eos quia totam molestiae omnis dolores voluptatem fuga.	2016-12-17 19:17:08.751348	\N	ruby-on-rails-bag	\N	\N	1	1	2016-12-17 19:17:09.068309	2016-12-17 19:17:17.463361	t	\N	\N	f	t
+10	Spree Ringer T-Shirt	Voluptatem recusandae voluptatem dolorem facilis itaque quisquam fuga placeat. Incidunt iusto labore voluptatibus ut magnam eos. Autem eos quia totam molestiae omnis dolores voluptatem fuga.	2016-12-17 19:17:08.751348	\N	spree-ringer-t-shirt	\N	\N	1	1	2016-12-17 19:17:09.904524	2016-12-17 19:17:19.586731	t	\N	\N	f	t
+16	Spree Mug	Voluptatem recusandae voluptatem dolorem facilis itaque quisquam fuga placeat. Incidunt iusto labore voluptatibus ut magnam eos. Autem eos quia totam molestiae omnis dolores voluptatem fuga.	2016-12-17 19:17:08.751348	\N	spree-mug	\N	\N	\N	1	2016-12-17 19:17:10.503947	2016-12-17 19:17:20.389793	t	\N	\N	f	t
+14	Ruby on Rails Stein	Voluptatem recusandae voluptatem dolorem facilis itaque quisquam fuga placeat. Incidunt iusto labore voluptatibus ut magnam eos. Autem eos quia totam molestiae omnis dolores voluptatem fuga.	2016-12-17 19:17:08.751348	\N	ruby-on-rails-stein	\N	\N	\N	1	2016-12-17 19:17:10.304188	2016-12-17 19:17:18.536558	t	\N	\N	f	t
+3	Ruby on Rails Baseball Jersey	Voluptatem recusandae voluptatem dolorem facilis itaque quisquam fuga placeat. Incidunt iusto labore voluptatibus ut magnam eos. Autem eos quia totam molestiae omnis dolores voluptatem fuga.	2016-12-17 19:17:08.751348	\N	ruby-on-rails-baseball-jersey	\N	\N	1	1	2016-12-17 19:17:09.176434	2016-12-17 19:17:17.68395	t	\N	\N	f	t
+6	Ruby Baseball Jersey	Voluptatem recusandae voluptatem dolorem facilis itaque quisquam fuga placeat. Incidunt iusto labore voluptatibus ut magnam eos. Autem eos quia totam molestiae omnis dolores voluptatem fuga.	2016-12-17 00:00:00	\N	ruby-baseball-jersey			1	1	2016-12-17 19:17:09.484541	2016-12-20 04:01:06.344538	t		\N	t	t
+13	Ruby on Rails Mug	Voluptatem recusandae voluptatem dolorem facilis itaque quisquam fuga placeat. Incidunt iusto labore voluptatibus ut magnam eos. Autem eos quia totam molestiae omnis dolores voluptatem fuga.	2016-12-17 00:00:00	\N	ruby-on-rails-mug			\N	1	2016-12-17 19:17:10.200703	2016-12-20 04:01:50.089225	t		\N	t	t
+7	Apache Baseball Jersey	Voluptatem recusandae voluptatem dolorem facilis itaque quisquam fuga placeat. Incidunt iusto labore voluptatibus ut magnam eos. Autem eos quia totam molestiae omnis dolores voluptatem fuga.	2016-12-17 19:17:08.751348	\N	apache-baseball-jersey	\N	\N	1	1	2016-12-17 19:17:09.592826	2016-12-20 04:02:22.548697	t	\N	\N	f	t
 \.
 
 
@@ -5128,17 +5173,17 @@ SELECT pg_catalog.setval('spree_promotions_id_seq', 1, false);
 --
 
 COPY spree_properties (id, name, presentation, created_at, updated_at) FROM stdin;
-1	Manufacturer	Manufacturer	2016-12-19 05:17:43.466433	2016-12-19 05:17:43.466433
-2	Brand	Brand	2016-12-19 05:17:43.513296	2016-12-19 05:17:43.513296
-3	Model	Model	2016-12-19 05:17:43.546255	2016-12-19 05:17:43.546255
-4	Shirt Type	Shirt Type	2016-12-19 05:17:43.568017	2016-12-19 05:17:43.568017
-5	Sleeve Type	Sleeve Type	2016-12-19 05:17:43.590025	2016-12-19 05:17:43.590025
-6	Made from	Made from	2016-12-19 05:17:43.612291	2016-12-19 05:17:43.612291
-7	Fit	Fit	2016-12-19 05:17:43.634001	2016-12-19 05:17:43.634001
-8	Gender	Gender	2016-12-19 05:17:43.656106	2016-12-19 05:17:43.656106
-9	Type	Type	2016-12-19 05:17:44.076339	2016-12-19 05:17:44.076339
-10	Size	Size	2016-12-19 05:17:44.108421	2016-12-19 05:17:44.108421
-11	Material	Material	2016-12-19 05:17:44.141228	2016-12-19 05:17:44.141228
+1	Manufacturer	Manufacturer	2016-12-17 19:17:11.551064	2016-12-17 19:17:11.551064
+2	Brand	Brand	2016-12-17 19:17:11.572989	2016-12-17 19:17:11.572989
+3	Model	Model	2016-12-17 19:17:11.589621	2016-12-17 19:17:11.589621
+4	Shirt Type	Shirt Type	2016-12-17 19:17:11.606227	2016-12-17 19:17:11.606227
+5	Sleeve Type	Sleeve Type	2016-12-17 19:17:11.622801	2016-12-17 19:17:11.622801
+6	Made from	Made from	2016-12-17 19:17:11.639493	2016-12-17 19:17:11.639493
+7	Fit	Fit	2016-12-17 19:17:11.656043	2016-12-17 19:17:11.656043
+8	Gender	Gender	2016-12-17 19:17:11.672705	2016-12-17 19:17:11.672705
+9	Type	Type	2016-12-17 19:17:11.964983	2016-12-17 19:17:11.964983
+10	Size	Size	2016-12-17 19:17:11.981083	2016-12-17 19:17:11.981083
+11	Material	Material	2016-12-17 19:17:11.997748	2016-12-17 19:17:11.997748
 \.
 
 
@@ -5197,9 +5242,9 @@ SELECT pg_catalog.setval('spree_prototype_taxons_id_seq', 1, false);
 --
 
 COPY spree_prototypes (id, name, created_at, updated_at) FROM stdin;
-1	Shirt	2016-12-19 05:17:45.110225	2016-12-19 05:17:45.110225
-2	Bag	2016-12-19 05:17:45.253984	2016-12-19 05:17:45.253984
-3	Mugs	2016-12-19 05:17:45.298053	2016-12-19 05:17:45.298053
+1	Shirt	2016-12-17 19:17:12.669334	2016-12-17 19:17:12.669334
+2	Bag	2016-12-17 19:17:12.755105	2016-12-17 19:17:12.755105
+3	Mugs	2016-12-17 19:17:12.78834	2016-12-17 19:17:12.78834
 \.
 
 
@@ -5215,7 +5260,7 @@ SELECT pg_catalog.setval('spree_prototypes_id_seq', 3, true);
 --
 
 COPY spree_refund_reasons (id, name, active, mutable, created_at, updated_at) FROM stdin;
-1	Return processing	t	f	2016-12-19 05:16:42.145974	2016-12-19 05:16:42.145974
+1	Return processing	t	f	2016-12-17 19:16:49.066791	2016-12-17 19:16:49.066791
 \.
 
 
@@ -5261,7 +5306,7 @@ SELECT pg_catalog.setval('spree_reimbursement_credits_id_seq', 1, false);
 --
 
 COPY spree_reimbursement_types (id, name, active, mutable, created_at, updated_at, type) FROM stdin;
-1	original	t	t	2016-12-19 05:16:43.650689	2016-12-19 05:16:43.931563	Spree::ReimbursementType::OriginalPayment
+1	original	t	t	2016-12-17 19:16:50.662165	2016-12-17 19:16:50.980334	Spree::ReimbursementType::OriginalPayment
 \.
 
 
@@ -5292,15 +5337,15 @@ SELECT pg_catalog.setval('spree_reimbursements_id_seq', 1, false);
 --
 
 COPY spree_return_authorization_reasons (id, name, active, mutable, created_at, updated_at) FROM stdin;
-1	Better price available	t	t	2016-12-19 05:16:41.740546	2016-12-19 05:16:41.740546
-2	Missed estimated delivery date	t	t	2016-12-19 05:16:41.743206	2016-12-19 05:16:41.743206
-3	Missing parts or accessories	t	t	2016-12-19 05:16:41.745748	2016-12-19 05:16:41.745748
-4	Damaged/Defective	t	t	2016-12-19 05:16:41.74864	2016-12-19 05:16:41.74864
-5	Different from what was ordered	t	t	2016-12-19 05:16:41.750876	2016-12-19 05:16:41.750876
-6	Different from description	t	t	2016-12-19 05:16:41.75287	2016-12-19 05:16:41.75287
-7	No longer needed/wanted	t	t	2016-12-19 05:16:41.754931	2016-12-19 05:16:41.754931
-8	Accidental order	t	t	2016-12-19 05:16:41.757219	2016-12-19 05:16:41.757219
-9	Unauthorized purchase	t	t	2016-12-19 05:16:41.759217	2016-12-19 05:16:41.759217
+1	Better price available	t	t	2016-12-17 19:16:48.637877	2016-12-17 19:16:48.637877
+2	Missed estimated delivery date	t	t	2016-12-17 19:16:48.639451	2016-12-17 19:16:48.639451
+3	Missing parts or accessories	t	t	2016-12-17 19:16:48.640678	2016-12-17 19:16:48.640678
+4	Damaged/Defective	t	t	2016-12-17 19:16:48.641862	2016-12-17 19:16:48.641862
+5	Different from what was ordered	t	t	2016-12-17 19:16:48.643029	2016-12-17 19:16:48.643029
+6	Different from description	t	t	2016-12-17 19:16:48.64411	2016-12-17 19:16:48.64411
+7	No longer needed/wanted	t	t	2016-12-17 19:16:48.645156	2016-12-17 19:16:48.645156
+8	Accidental order	t	t	2016-12-17 19:16:48.64622	2016-12-17 19:16:48.64622
+9	Unauthorized purchase	t	t	2016-12-17 19:16:48.647237	2016-12-17 19:16:48.647237
 \.
 
 
@@ -5379,8 +5424,8 @@ SELECT pg_catalog.setval('spree_roles_id_seq', 2, true);
 --
 
 COPY spree_shipments (id, tracking, number, cost, shipped_at, order_id, address_id, state, created_at, updated_at, stock_location_id, adjustment_total, additional_tax_total, promo_total, included_tax_total, pre_tax_amount, taxable_adjustment_total, non_taxable_adjustment_total) FROM stdin;
-1	\N	H82182223946	5.00	\N	1	1	pending	2016-12-19 05:17:56.486426	2016-12-19 05:17:57.257206	1	0.00	0.00	0.00	0.00	0.0000	0.00	0.00
-2	\N	H68998013561	5.00	\N	2	1	pending	2016-12-19 05:17:56.580169	2016-12-19 05:17:57.617714	1	0.00	0.00	0.00	0.00	0.0000	0.00	0.00
+1	\N	H52167693108	5.00	\N	1	1	pending	2016-12-17 19:17:20.796717	2016-12-17 19:17:21.458328	1	0.00	0.00	0.00	0.00	0.0000	0.00	0.00
+2	\N	H50548790488	5.00	\N	2	1	pending	2016-12-17 19:17:20.848834	2016-12-17 19:17:21.68289	1	0.00	0.00	0.00	0.00	0.0000	0.00	0.00
 \.
 
 
@@ -5396,7 +5441,7 @@ SELECT pg_catalog.setval('spree_shipments_id_seq', 2, true);
 --
 
 COPY spree_shipping_categories (id, name, created_at, updated_at) FROM stdin;
-1	Default	2016-12-19 05:16:33.685468	2016-12-19 05:16:33.685468
+1	Default	2016-12-17 19:16:40.547473	2016-12-17 19:16:40.547473
 \.
 
 
@@ -5412,11 +5457,11 @@ SELECT pg_catalog.setval('spree_shipping_categories_id_seq', 1, true);
 --
 
 COPY spree_shipping_method_categories (id, shipping_method_id, shipping_category_id, created_at, updated_at) FROM stdin;
-1	1	1	2016-12-19 05:17:39.245577	2016-12-19 05:17:39.245577
-2	2	1	2016-12-19 05:17:39.27463	2016-12-19 05:17:39.27463
-3	3	1	2016-12-19 05:17:39.320418	2016-12-19 05:17:39.320418
-4	4	1	2016-12-19 05:17:39.341136	2016-12-19 05:17:39.341136
-5	5	1	2016-12-19 05:17:39.364748	2016-12-19 05:17:39.364748
+1	1	1	2016-12-17 19:17:08.228206	2016-12-17 19:17:08.228206
+2	2	1	2016-12-17 19:17:08.523309	2016-12-17 19:17:08.523309
+3	3	1	2016-12-17 19:17:08.546199	2016-12-17 19:17:08.546199
+4	4	1	2016-12-17 19:17:08.562845	2016-12-17 19:17:08.562845
+5	5	1	2016-12-17 19:17:08.579269	2016-12-17 19:17:08.579269
 \.
 
 
@@ -5452,11 +5497,11 @@ SELECT pg_catalog.setval('spree_shipping_method_zones_id_seq', 5, true);
 --
 
 COPY spree_shipping_methods (id, name, display_on, deleted_at, created_at, updated_at, tracking_url, admin_name, tax_category_id, code) FROM stdin;
-1	UPS Ground (USD)	\N	\N	2016-12-19 05:17:39.240505	2016-12-19 05:17:39.240505	\N	\N	\N	\N
-2	UPS Two Day (USD)	\N	\N	2016-12-19 05:17:39.270909	2016-12-19 05:17:39.270909	\N	\N	\N	\N
-3	UPS One Day (USD)	\N	\N	2016-12-19 05:17:39.315482	2016-12-19 05:17:39.315482	\N	\N	\N	\N
-4	UPS Ground (EU)	\N	\N	2016-12-19 05:17:39.337274	2016-12-19 05:17:39.337274	\N	\N	\N	\N
-5	UPS Ground (EUR)	\N	\N	2016-12-19 05:17:39.360374	2016-12-19 05:17:39.360374	\N	\N	\N	\N
+1	UPS Ground (USD)	\N	\N	2016-12-17 19:17:08.225311	2016-12-17 19:17:08.225311	\N	\N	\N	\N
+2	UPS Two Day (USD)	\N	\N	2016-12-17 19:17:08.520949	2016-12-17 19:17:08.520949	\N	\N	\N	\N
+3	UPS One Day (USD)	\N	\N	2016-12-17 19:17:08.544075	2016-12-17 19:17:08.544075	\N	\N	\N	\N
+4	UPS Ground (EU)	\N	\N	2016-12-17 19:17:08.560755	2016-12-17 19:17:08.560755	\N	\N	\N	\N
+5	UPS Ground (EUR)	\N	\N	2016-12-17 19:17:08.57726	2016-12-17 19:17:08.57726	\N	\N	\N	\N
 \.
 
 
@@ -5472,12 +5517,12 @@ SELECT pg_catalog.setval('spree_shipping_methods_id_seq', 5, true);
 --
 
 COPY spree_shipping_rates (id, shipment_id, shipping_method_id, selected, cost, created_at, updated_at, tax_rate_id) FROM stdin;
-11	1	2	f	10.00	2016-12-19 05:17:57.243943	2016-12-19 05:17:57.243943	\N
-12	1	3	f	15.00	2016-12-19 05:17:57.24514	2016-12-19 05:17:57.24514	\N
-10	1	1	t	5.00	2016-12-19 05:17:57.242446	2016-12-19 05:17:57.25063	\N
-17	2	2	f	10.00	2016-12-19 05:17:57.604668	2016-12-19 05:17:57.604668	\N
-18	2	3	f	15.00	2016-12-19 05:17:57.605827	2016-12-19 05:17:57.605827	\N
-16	2	1	t	5.00	2016-12-19 05:17:57.603121	2016-12-19 05:17:57.611447	\N
+11	1	2	f	10.00	2016-12-17 19:17:21.451055	2016-12-17 19:17:21.451055	\N
+12	1	3	f	15.00	2016-12-17 19:17:21.451741	2016-12-17 19:17:21.451741	\N
+10	1	1	t	5.00	2016-12-17 19:17:21.450187	2016-12-17 19:17:21.454705	\N
+17	2	2	f	10.00	2016-12-17 19:17:21.67419	2016-12-17 19:17:21.67419	\N
+18	2	3	f	15.00	2016-12-17 19:17:21.674851	2016-12-17 19:17:21.674851	\N
+16	2	1	t	5.00	2016-12-17 19:17:21.673377	2016-12-17 19:17:21.678219	\N
 \.
 
 
@@ -5508,10 +5553,10 @@ SELECT pg_catalog.setval('spree_skrill_transactions_id_seq', 1, false);
 --
 
 COPY spree_state_changes (id, name, previous_state, stateful_id, user_id, stateful_type, next_state, created_at, updated_at) FROM stdin;
-1	payment	\N	1	\N	Spree::Order	balance_due	2016-12-19 05:17:56.975153	2016-12-19 05:17:56.975153
-2	shipment	\N	1	\N	Spree::Order	pending	2016-12-19 05:17:57.131295	2016-12-19 05:17:57.131295
-3	payment	\N	2	\N	Spree::Order	balance_due	2016-12-19 05:17:57.388424	2016-12-19 05:17:57.388424
-4	shipment	\N	2	\N	Spree::Order	pending	2016-12-19 05:17:57.507259	2016-12-19 05:17:57.507259
+1	payment	\N	1	\N	Spree::Order	balance_due	2016-12-17 19:17:21.10528	2016-12-17 19:17:21.10528
+2	shipment	\N	1	\N	Spree::Order	pending	2016-12-17 19:17:21.381744	2016-12-17 19:17:21.381744
+3	payment	\N	2	\N	Spree::Order	balance_due	2016-12-17 19:17:21.529449	2016-12-17 19:17:21.529449
+4	shipment	\N	2	\N	Spree::Order	pending	2016-12-17 19:17:21.614703	2016-12-17 19:17:21.614703
 \.
 
 
@@ -9318,32 +9363,32 @@ SELECT pg_catalog.setval('spree_states_id_seq', 3776, true);
 --
 
 COPY spree_stock_items (id, stock_location_id, variant_id, count_on_hand, created_at, updated_at, backorderable, deleted_at) FROM stdin;
-19	1	19	10	2016-12-19 05:17:45.525878	2016-12-19 05:17:46.486423	t	\N
-20	1	20	10	2016-12-19 05:17:45.580861	2016-12-19 05:17:46.524791	t	\N
-21	1	21	10	2016-12-19 05:17:45.647149	2016-12-19 05:17:46.55698	t	\N
-22	1	22	10	2016-12-19 05:17:45.703222	2016-12-19 05:17:46.600892	t	\N
-23	1	23	10	2016-12-19 05:17:45.7692	2016-12-19 05:17:46.634141	t	\N
-24	1	24	10	2016-12-19 05:17:45.838813	2016-12-19 05:17:46.668197	t	\N
-25	1	25	10	2016-12-19 05:17:45.904216	2016-12-19 05:17:46.698896	t	\N
-26	1	26	10	2016-12-19 05:17:45.971052	2016-12-19 05:17:46.731817	t	\N
-3	1	3	10	2016-12-19 05:17:40.292385	2016-12-19 05:17:46.764631	t	\N
-1	1	1	10	2016-12-19 05:17:39.941861	2016-12-19 05:17:46.798546	t	\N
-2	1	2	10	2016-12-19 05:17:40.103391	2016-12-19 05:17:46.831715	t	\N
-4	1	4	10	2016-12-19 05:17:40.427484	2016-12-19 05:17:46.864535	t	\N
-13	1	13	10	2016-12-19 05:17:41.661928	2016-12-19 05:17:46.896836	t	\N
-5	1	5	10	2016-12-19 05:17:40.580814	2016-12-19 05:17:46.929472	t	\N
-14	1	14	10	2016-12-19 05:17:41.794445	2016-12-19 05:17:46.963337	t	\N
-7	1	7	10	2016-12-19 05:17:40.836148	2016-12-19 05:17:46.996207	t	\N
-6	1	6	10	2016-12-19 05:17:40.702161	2016-12-19 05:17:47.028873	t	\N
-8	1	8	10	2016-12-19 05:17:40.990438	2016-12-19 05:17:47.062546	t	\N
-15	1	15	10	2016-12-19 05:17:41.92544	2016-12-19 05:17:47.095111	t	\N
-9	1	9	10	2016-12-19 05:17:41.123141	2016-12-19 05:17:47.128407	t	\N
-16	1	16	10	2016-12-19 05:17:42.057516	2016-12-19 05:17:47.161838	t	\N
-10	1	10	10	2016-12-19 05:17:41.255878	2016-12-19 05:17:47.194614	t	\N
-11	1	11	10	2016-12-19 05:17:41.386283	2016-12-19 05:17:47.241966	t	\N
-17	1	17	10	2016-12-19 05:17:45.396806	2016-12-19 05:17:47.273098	t	\N
-12	1	12	10	2016-12-19 05:17:41.518048	2016-12-19 05:17:47.305567	t	\N
-18	1	18	10	2016-12-19 05:17:45.470967	2016-12-19 05:17:47.338935	t	\N
+19	1	19	10	2016-12-17 19:17:12.920812	2016-12-17 19:17:13.758685	t	\N
+20	1	20	10	2016-12-17 19:17:12.954691	2016-12-17 19:17:13.778204	t	\N
+21	1	21	10	2016-12-17 19:17:12.996836	2016-12-17 19:17:13.803017	t	\N
+22	1	22	10	2016-12-17 19:17:13.029984	2016-12-17 19:17:13.819471	t	\N
+23	1	23	10	2016-12-17 19:17:13.063283	2016-12-17 19:17:13.836161	t	\N
+24	1	24	10	2016-12-17 19:17:13.207056	2016-12-17 19:17:13.852863	t	\N
+25	1	25	10	2016-12-17 19:17:13.358593	2016-12-17 19:17:13.868922	t	\N
+26	1	26	10	2016-12-17 19:17:13.397015	2016-12-17 19:17:13.885501	t	\N
+3	1	3	10	2016-12-17 19:17:09.185778	2016-12-17 19:17:13.902498	t	\N
+1	1	1	10	2016-12-17 19:17:08.966845	2016-12-17 19:17:13.919271	t	\N
+2	1	2	10	2016-12-17 19:17:09.077544	2016-12-17 19:17:13.936012	t	\N
+4	1	4	10	2016-12-17 19:17:09.289764	2016-12-17 19:17:13.95211	t	\N
+13	1	13	10	2016-12-17 19:17:10.209202	2016-12-17 19:17:13.96848	t	\N
+5	1	5	10	2016-12-17 19:17:09.385629	2016-12-17 19:17:13.985101	t	\N
+14	1	14	10	2016-12-17 19:17:10.313268	2016-12-17 19:17:14.001814	t	\N
+7	1	7	10	2016-12-17 19:17:09.601717	2016-12-17 19:17:14.018465	t	\N
+6	1	6	10	2016-12-17 19:17:09.493772	2016-12-17 19:17:14.035002	t	\N
+8	1	8	10	2016-12-17 19:17:09.705499	2016-12-17 19:17:14.0516	t	\N
+15	1	15	10	2016-12-17 19:17:10.412896	2016-12-17 19:17:14.068462	t	\N
+9	1	9	10	2016-12-17 19:17:09.810825	2016-12-17 19:17:14.084979	t	\N
+16	1	16	10	2016-12-17 19:17:10.512783	2016-12-17 19:17:14.114214	t	\N
+10	1	10	10	2016-12-17 19:17:09.913356	2016-12-17 19:17:14.135661	t	\N
+11	1	11	10	2016-12-17 19:17:10.013273	2016-12-17 19:17:14.152064	t	\N
+17	1	17	10	2016-12-17 19:17:12.847009	2016-12-17 19:17:14.16872	t	\N
+12	1	12	10	2016-12-17 19:17:10.114447	2016-12-17 19:17:14.185516	t	\N
+18	1	18	10	2016-12-17 19:17:12.887561	2016-12-17 19:17:14.202174	t	\N
 \.
 
 
@@ -9359,7 +9404,7 @@ SELECT pg_catalog.setval('spree_stock_items_id_seq', 26, true);
 --
 
 COPY spree_stock_locations (id, name, created_at, updated_at, "default", address1, address2, city, state_id, state_name, country_id, zipcode, phone, active, backorderable_default, propagate_all_variants, admin_name) FROM stdin;
-1	default	2016-12-19 05:16:29.938233	2016-12-19 05:16:29.938233	f	\N	\N	\N	\N	\N	\N	\N	\N	t	t	t	\N
+1	default	2016-12-17 19:16:36.961511	2016-12-17 19:16:36.961511	f	\N	\N	\N	\N	\N	\N	\N	\N	t	t	t	\N
 \.
 
 
@@ -9375,32 +9420,32 @@ SELECT pg_catalog.setval('spree_stock_locations_id_seq', 1, true);
 --
 
 COPY spree_stock_movements (id, stock_item_id, quantity, action, created_at, updated_at, originator_id, originator_type) FROM stdin;
-1	19	10	\N	2016-12-19 05:17:46.401835	2016-12-19 05:17:46.401835	\N	\N
-2	20	10	\N	2016-12-19 05:17:46.514388	2016-12-19 05:17:46.514388	\N	\N
-3	21	10	\N	2016-12-19 05:17:46.547572	2016-12-19 05:17:46.547572	\N	\N
-4	22	10	\N	2016-12-19 05:17:46.591378	2016-12-19 05:17:46.591378	\N	\N
-5	23	10	\N	2016-12-19 05:17:46.624309	2016-12-19 05:17:46.624309	\N	\N
-6	24	10	\N	2016-12-19 05:17:46.657597	2016-12-19 05:17:46.657597	\N	\N
-7	25	10	\N	2016-12-19 05:17:46.690214	2016-12-19 05:17:46.690214	\N	\N
-8	26	10	\N	2016-12-19 05:17:46.723467	2016-12-19 05:17:46.723467	\N	\N
-9	3	10	\N	2016-12-19 05:17:46.756363	2016-12-19 05:17:46.756363	\N	\N
-10	1	10	\N	2016-12-19 05:17:46.789927	2016-12-19 05:17:46.789927	\N	\N
-11	2	10	\N	2016-12-19 05:17:46.823063	2016-12-19 05:17:46.823063	\N	\N
-12	4	10	\N	2016-12-19 05:17:46.855927	2016-12-19 05:17:46.855927	\N	\N
-13	13	10	\N	2016-12-19 05:17:46.889181	2016-12-19 05:17:46.889181	\N	\N
-14	5	10	\N	2016-12-19 05:17:46.921894	2016-12-19 05:17:46.921894	\N	\N
-15	14	10	\N	2016-12-19 05:17:46.955575	2016-12-19 05:17:46.955575	\N	\N
-16	7	10	\N	2016-12-19 05:17:46.988579	2016-12-19 05:17:46.988579	\N	\N
-17	6	10	\N	2016-12-19 05:17:47.02135	2016-12-19 05:17:47.02135	\N	\N
-18	8	10	\N	2016-12-19 05:17:47.054853	2016-12-19 05:17:47.054853	\N	\N
-19	15	10	\N	2016-12-19 05:17:47.087554	2016-12-19 05:17:47.087554	\N	\N
-20	9	10	\N	2016-12-19 05:17:47.120796	2016-12-19 05:17:47.120796	\N	\N
-21	16	10	\N	2016-12-19 05:17:47.154122	2016-12-19 05:17:47.154122	\N	\N
-22	10	10	\N	2016-12-19 05:17:47.187078	2016-12-19 05:17:47.187078	\N	\N
-23	11	10	\N	2016-12-19 05:17:47.233826	2016-12-19 05:17:47.233826	\N	\N
-24	17	10	\N	2016-12-19 05:17:47.264653	2016-12-19 05:17:47.264653	\N	\N
-25	12	10	\N	2016-12-19 05:17:47.297363	2016-12-19 05:17:47.297363	\N	\N
-26	18	10	\N	2016-12-19 05:17:47.330483	2016-12-19 05:17:47.330483	\N	\N
+1	19	10	\N	2016-12-17 19:17:13.704921	2016-12-17 19:17:13.704921	\N	\N
+2	20	10	\N	2016-12-17 19:17:13.772465	2016-12-17 19:17:13.772465	\N	\N
+3	21	10	\N	2016-12-17 19:17:13.797352	2016-12-17 19:17:13.797352	\N	\N
+4	22	10	\N	2016-12-17 19:17:13.813961	2016-12-17 19:17:13.813961	\N	\N
+5	23	10	\N	2016-12-17 19:17:13.830565	2016-12-17 19:17:13.830565	\N	\N
+6	24	10	\N	2016-12-17 19:17:13.847194	2016-12-17 19:17:13.847194	\N	\N
+7	25	10	\N	2016-12-17 19:17:13.863785	2016-12-17 19:17:13.863785	\N	\N
+8	26	10	\N	2016-12-17 19:17:13.880488	2016-12-17 19:17:13.880488	\N	\N
+9	3	10	\N	2016-12-17 19:17:13.897267	2016-12-17 19:17:13.897267	\N	\N
+10	1	10	\N	2016-12-17 19:17:13.913935	2016-12-17 19:17:13.913935	\N	\N
+11	2	10	\N	2016-12-17 19:17:13.930579	2016-12-17 19:17:13.930579	\N	\N
+12	4	10	\N	2016-12-17 19:17:13.947196	2016-12-17 19:17:13.947196	\N	\N
+13	13	10	\N	2016-12-17 19:17:13.963698	2016-12-17 19:17:13.963698	\N	\N
+14	5	10	\N	2016-12-17 19:17:13.980438	2016-12-17 19:17:13.980438	\N	\N
+15	14	10	\N	2016-12-17 19:17:13.997083	2016-12-17 19:17:13.997083	\N	\N
+16	7	10	\N	2016-12-17 19:17:14.013764	2016-12-17 19:17:14.013764	\N	\N
+17	6	10	\N	2016-12-17 19:17:14.030433	2016-12-17 19:17:14.030433	\N	\N
+18	8	10	\N	2016-12-17 19:17:14.046976	2016-12-17 19:17:14.046976	\N	\N
+19	15	10	\N	2016-12-17 19:17:14.06363	2016-12-17 19:17:14.06363	\N	\N
+20	9	10	\N	2016-12-17 19:17:14.080322	2016-12-17 19:17:14.080322	\N	\N
+21	16	10	\N	2016-12-17 19:17:14.097085	2016-12-17 19:17:14.097085	\N	\N
+22	10	10	\N	2016-12-17 19:17:14.130464	2016-12-17 19:17:14.130464	\N	\N
+23	11	10	\N	2016-12-17 19:17:14.147087	2016-12-17 19:17:14.147087	\N	\N
+24	17	10	\N	2016-12-17 19:17:14.163566	2016-12-17 19:17:14.163566	\N	\N
+25	12	10	\N	2016-12-17 19:17:14.180358	2016-12-17 19:17:14.180358	\N	\N
+26	18	10	\N	2016-12-17 19:17:14.197001	2016-12-17 19:17:14.197001	\N	\N
 \.
 
 
@@ -9431,7 +9476,7 @@ SELECT pg_catalog.setval('spree_stock_transfers_id_seq', 1, false);
 --
 
 COPY spree_store_credit_categories (id, name, created_at, updated_at) FROM stdin;
-1	Default	2016-12-19 05:17:57.645073	2016-12-19 05:17:57.645073
+1	Default	2016-12-17 19:17:21.701633	2016-12-17 19:17:21.701633
 \.
 
 
@@ -9462,8 +9507,8 @@ SELECT pg_catalog.setval('spree_store_credit_events_id_seq', 1, false);
 --
 
 COPY spree_store_credit_types (id, name, priority, created_at, updated_at) FROM stdin;
-1	Expiring	1	2016-12-19 05:16:49.500717	2016-12-19 05:16:49.500717
-2	Non-expiring	2	2016-12-19 05:16:49.503979	2016-12-19 05:16:49.503979
+1	Expiring	1	2016-12-17 19:16:57.348217	2016-12-17 19:16:57.348217
+2	Non-expiring	2	2016-12-17 19:16:57.349674	2016-12-17 19:16:57.349674
 \.
 
 
@@ -9494,7 +9539,7 @@ SELECT pg_catalog.setval('spree_store_credits_id_seq', 1, false);
 --
 
 COPY spree_stores (id, name, url, meta_description, meta_keywords, seo_title, mail_from_address, default_currency, code, "default", created_at, updated_at) FROM stdin;
-1	Spree Demo Site	demo.spreecommerce.com	\N	\N	\N	spree@example.com	\N	spree	t	2016-12-19 05:16:37.231889	2016-12-19 05:16:37.231889
+1	Spree Demo Site	demo.spreecommerce.com	\N	\N	\N	spree@example.com	\N	spree	t	2016-12-17 19:16:44.314452	2016-12-17 19:16:44.314452
 \.
 
 
@@ -9506,12 +9551,53 @@ SELECT pg_catalog.setval('spree_stores_id_seq', 1, true);
 
 
 --
+-- Data for Name: spree_suggestions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY spree_suggestions (id, keywords, count, items_found, created_at, updated_at) FROM stdin;
+1	Spree	6	7	2016-12-20 05:33:32.994294	2016-12-20 05:33:32.994294
+2	Ruby	6	1	2016-12-20 05:33:33.023523	2016-12-20 05:33:33.023523
+4	Mugs	6	4	2016-12-20 05:33:33.056631	2016-12-20 05:33:33.056631
+5	Rails	6	7	2016-12-20 05:33:33.073398	2016-12-20 05:33:33.073398
+6	Apache	6	1	2016-12-20 05:33:33.089762	2016-12-20 05:33:33.089762
+7	T-Shirts	6	6	2016-12-20 05:33:33.106613	2016-12-20 05:33:33.106613
+8	Clothing	6	8	2016-12-20 05:33:33.123306	2016-12-20 05:33:33.123306
+9	Shirts	6	2	2016-12-20 05:33:33.139978	2016-12-20 05:33:33.139978
+11	Ruby on Rails Bag	6	1	2016-12-20 05:33:33.167382	2016-12-20 05:33:33.167382
+12	Ruby on Rails Baseball Jersey	6	1	2016-12-20 05:33:33.175678	2016-12-20 05:33:33.175678
+13	Ruby on Rails Jr. Spaghetti	6	1	2016-12-20 05:33:33.184021	2016-12-20 05:33:33.184021
+14	Ruby on Rails Ringer T-Shirt	6	1	2016-12-20 05:33:33.192342	2016-12-20 05:33:33.192342
+15	Ruby Baseball Jersey	6	1	2016-12-20 05:33:33.200664	2016-12-20 05:33:33.200664
+16	Apache Baseball Jersey	6	1	2016-12-20 05:33:33.209	2016-12-20 05:33:33.209
+17	Spree Baseball Jersey	6	1	2016-12-20 05:33:33.217323	2016-12-20 05:33:33.217323
+19	Spree Ringer T-Shirt	6	1	2016-12-20 05:33:33.233988	2016-12-20 05:33:33.233988
+21	Spree Bag	6	1	2016-12-20 05:33:33.250613	2016-12-20 05:33:33.250613
+22	Ruby on Rails Mug	6	1	2016-12-20 05:33:33.258996	2016-12-20 05:33:33.258996
+23	Ruby on Rails Stein	6	1	2016-12-20 05:33:33.267327	2016-12-20 05:33:33.267327
+24	Spree Stein	6	1	2016-12-20 05:33:33.275649	2016-12-20 05:33:33.275649
+25	Spree Mug	6	1	2016-12-20 05:33:33.283974	2016-12-20 05:33:33.283974
+26	ruby	1	8	2016-12-20 05:34:25.717919	2016-12-20 05:34:25.717919
+10	Ruby on Rails Tote	7	9	2016-12-20 05:33:33.157077	2016-12-20 05:39:08.059364
+3	Bags	7	0	2016-12-20 05:33:33.039858	2016-12-20 05:39:40.133291
+18	Spree Jr. Spaghetti	7	8	2016-12-20 05:33:33.225653	2016-12-20 05:39:58.515643
+20	Spree Tote	7	8	2016-12-20 05:33:33.242288	2016-12-20 05:42:11.347912
+\.
+
+
+--
+-- Name: spree_suggestions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('spree_suggestions_id_seq', 26, true);
+
+
+--
 -- Data for Name: spree_tax_categories; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 COPY spree_tax_categories (id, name, description, is_default, deleted_at, created_at, updated_at, tax_code) FROM stdin;
-1	Clothing	\N	f	\N	2016-12-19 05:17:39.5029	2016-12-19 05:17:39.5029	\N
-2	Food	\N	f	\N	2016-12-19 05:17:39.519669	2016-12-19 05:17:39.519669	\N
+1	Clothing	\N	f	\N	2016-12-17 19:17:08.64965	2016-12-17 19:17:08.64965	\N
+2	Food	\N	f	\N	2016-12-17 19:17:08.658444	2016-12-17 19:17:08.658444	\N
 \.
 
 
@@ -9527,7 +9613,7 @@ SELECT pg_catalog.setval('spree_tax_categories_id_seq', 2, true);
 --
 
 COPY spree_tax_rates (id, amount, zone_id, tax_category_id, included_in_price, created_at, updated_at, name, show_rate_in_label, deleted_at) FROM stdin;
-1	0.05000	2	1	f	2016-12-19 05:17:39.639262	2016-12-19 05:17:39.639262	North America	t	\N
+1	0.05000	2	1	f	2016-12-17 19:17:08.741427	2016-12-17 19:17:08.741427	North America	t	\N
 \.
 
 
@@ -9543,8 +9629,8 @@ SELECT pg_catalog.setval('spree_tax_rates_id_seq', 1, true);
 --
 
 COPY spree_taxonomies (id, name, created_at, updated_at, "position") FROM stdin;
-1	Categories	2016-12-19 05:17:42.179509	2016-12-19 07:19:50.345653	1
-2	Brand	2016-12-19 05:17:42.245251	2016-12-19 07:19:50.345653	2
+1	Categories	2016-12-17 19:17:10.622384	2016-12-20 04:02:22.553907	1
+2	Brand	2016-12-17 19:17:10.748486	2016-12-20 04:02:22.553907	2
 \.
 
 
@@ -9560,17 +9646,17 @@ SELECT pg_catalog.setval('spree_taxonomies_id_seq', 2, true);
 --
 
 COPY spree_taxons (id, parent_id, "position", name, permalink, taxonomy_id, lft, rgt, icon_file_name, icon_content_type, icon_file_size, icon_updated_at, description, created_at, updated_at, meta_title, meta_description, meta_keywords, depth) FROM stdin;
-9	2	0	Apache	brand/apache	2	16	17	\N	\N	\N	\N	\N	2016-12-19 05:17:42.84554	2016-12-19 05:17:53.352526	\N	\N	\N	1
-10	2	0	Spree	brand/spree	2	18	19	\N	\N	\N	\N	\N	2016-12-19 05:17:42.915505	2016-12-19 05:17:55.671866	\N	\N	\N	1
-4	1	2	Mugs	categories/mugs	1	4	5	\N	\N	\N	\N	\N	2016-12-19 05:17:42.461486	2016-12-19 05:17:55.671866	\N	\N	\N	1
-8	2	0	Ruby	brand/ruby	2	14	15	\N	\N	\N	\N	\N	2016-12-19 05:17:42.790675	2016-12-19 07:16:22.345023	\N	\N	\N	1
-7	5	0	T-Shirts	categories/clothing/t-shirts	1	9	10	\N	\N	\N	\N	\N	2016-12-19 05:17:42.680007	2016-12-19 07:16:22.345023	\N	\N	\N	2
-5	1	0	Clothing	categories/clothing	1	6	11	\N	\N	\N	\N	\N	2016-12-19 05:17:42.544333	2016-12-19 07:16:22.345023	\N	\N	\N	1
-1	\N	0	Categories	categories	1	1	12	\N	\N	\N	\N	\N	2016-12-19 05:17:42.196398	2016-12-19 07:19:50.339089	\N	\N	\N	0
-2	\N	0	Brand	brand	2	13	22	\N	\N	\N	\N	\N	2016-12-19 05:17:42.249437	2016-12-19 07:19:50.339089	\N	\N	\N	0
-3	1	1	Bags	categories/bags	1	2	3	\N	\N	\N	\N	\N	2016-12-19 05:17:42.337278	2016-12-19 07:19:50.339089	\N	\N	\N	1
-11	2	0	Rails	brand/rails	2	20	21	\N	\N	\N	\N	\N	2016-12-19 05:17:43.061184	2016-12-19 07:19:50.339089	\N	\N	\N	1
-6	5	0	Shirts	categories/clothing/shirts	1	7	8	\N	\N	\N	\N	\N	2016-12-19 05:17:42.59072	2016-12-19 05:17:54.703218	\N	\N	\N	2
+10	2	0	Spree	brand/spree	2	18	19	\N	\N	\N	\N	\N	2016-12-17 19:17:11.267626	2016-12-17 19:17:20.392624	\N	\N	\N	1
+8	2	0	Ruby	brand/ruby	2	14	15	\N	\N	\N	\N	\N	2016-12-17 19:17:11.20127	2016-12-20 04:01:06.348676	\N	\N	\N	1
+3	1	1	Bags	categories/bags	1	2	3	\N	\N	\N	\N	\N	2016-12-17 19:17:10.907633	2016-12-17 19:17:19.35997	\N	\N	\N	1
+4	1	2	Mugs	categories/mugs	1	4	5	\N	\N	\N	\N	\N	2016-12-17 19:17:10.998195	2016-12-20 04:01:50.094562	\N	\N	\N	1
+11	2	0	Rails	brand/rails	2	20	21	\N	\N	\N	\N	\N	2016-12-17 19:17:11.343968	2016-12-20 04:01:50.094562	\N	\N	\N	1
+9	2	0	Apache	brand/apache	2	16	17	\N	\N	\N	\N	\N	2016-12-17 19:17:11.234456	2016-12-20 04:02:22.551896	\N	\N	\N	1
+7	5	0	T-Shirts	categories/clothing/t-shirts	1	9	10	\N	\N	\N	\N	\N	2016-12-17 19:17:11.128942	2016-12-20 04:02:22.551896	\N	\N	\N	2
+5	1	0	Clothing	categories/clothing	1	6	11	\N	\N	\N	\N	\N	2016-12-17 19:17:11.048781	2016-12-20 04:02:22.551896	\N	\N	\N	1
+1	\N	0	Categories	categories	1	1	12	\N	\N	\N	\N	\N	2016-12-17 19:17:10.633406	2016-12-20 04:02:22.551896	\N	\N	\N	0
+2	\N	0	Brand	brand	2	13	22	\N	\N	\N	\N	\N	2016-12-17 19:17:10.751602	2016-12-20 04:02:22.551896	\N	\N	\N	0
+6	5	0	Shirts	categories/clothing/shirts	1	7	8	\N	\N	\N	\N	\N	2016-12-17 19:17:11.073495	2016-12-17 19:17:19.693277	\N	\N	\N	2
 \.
 
 
@@ -9601,7 +9687,7 @@ SELECT pg_catalog.setval('spree_trackers_id_seq', 1, false);
 --
 
 COPY spree_user_authentications (id, user_id, provider, uid, created_at, updated_at) FROM stdin;
-1	2	facebook	1207013422727081	2016-12-19 06:37:22.221163	2016-12-19 06:37:22.221163
+1	2	facebook	1207013422727081	2016-12-20 04:06:23.082932	2016-12-20 04:06:23.082932
 \.
 
 
@@ -9617,8 +9703,8 @@ SELECT pg_catalog.setval('spree_user_authentications_id_seq', 1, true);
 --
 
 COPY spree_users (id, encrypted_password, password_salt, email, remember_token, persistence_token, reset_password_token, perishable_token, sign_in_count, failed_attempts, last_request_at, current_sign_in_at, last_sign_in_at, current_sign_in_ip, last_sign_in_ip, login, ship_address_id, bill_address_id, authentication_token, unlock_token, locked_at, reset_password_sent_at, created_at, updated_at, spree_api_key, remember_created_at, deleted_at, confirmation_token, confirmed_at, confirmation_sent_at) FROM stdin;
-2	\N	\N	karthikpamidimari@gmail.com	\N	\N	\N	\N	3	0	\N	2016-12-19 07:14:01.582758	2016-12-19 07:03:56.515098	127.0.0.1	127.0.0.1	karthikpamidimari@gmail.com	\N	\N	\N	\N	\N	\N	2016-12-19 06:37:22.206866	2016-12-19 07:14:01.583836	ad22b6b614fdbb3067c36e00dc7cabb0e6e882a877a38f8e	\N	\N	\N	\N	\N
-1	77dea10ace2f0a6e7a263093984559ff15d5442a4b6eab2e885d9dad43e97df17062e74981413094690ea5583bcf8f4b483863dd1908d1b366eafe036a13d621	YVTj5BU8tYsSVrfyWzyD	spree@example.com	\N	\N	\N	\N	5	0	\N	2016-12-19 07:15:00.072656	2016-12-19 07:13:50.529017	127.0.0.1	127.0.0.1	spree@example.com	\N	\N	\N	\N	\N	\N	2016-12-19 05:17:08.097891	2016-12-19 07:15:00.074009	91ed2d1d908fe9664c0c3705b10b1b1652ed93f8c0e72195	\N	\N	\N	\N	\N
+1	ae72ff11cb57cd661b28973c9ce82922a75e13d9bff7d5f3d2a10a6275c229b0936881ce8c6627bfc13427d7473d190870ce36c52b19a4358822b8bd0357644e	E97bhGF8i8pHzmDnV46s	spree@example.com	\N	\N	\N	\N	1	0	\N	2016-12-20 04:00:00.656297	2016-12-20 04:00:00.656297	127.0.0.1	127.0.0.1	spree@example.com	\N	\N	\N	\N	\N	\N	2016-12-17 19:17:05.937242	2016-12-20 04:00:00.657083	875d08a38bc96f63b02fee77fa869a7a0460bb2b0e3b5a3f	\N	\N	\N	\N	\N
+2	\N	\N	karthikpamidimari@gmail.com	\N	\N	\N	\N	1	0	\N	2016-12-20 04:06:23.0922	2016-12-20 04:06:23.0922	127.0.0.1	127.0.0.1	karthikpamidimari@gmail.com	\N	\N	\N	\N	\N	\N	2016-12-20 04:06:23.067981	2016-12-20 04:06:23.092885	\N	\N	\N	\N	\N	\N
 \.
 
 
@@ -9634,32 +9720,32 @@ SELECT pg_catalog.setval('spree_users_id_seq', 2, true);
 --
 
 COPY spree_variants (id, sku, weight, height, width, depth, deleted_at, is_master, product_id, cost_price, "position", cost_currency, track_inventory, tax_category_id, updated_at, stock_items_count, discontinue_on) FROM stdin;
-5	ROR-00015	0.00	\N	\N	\N	\N	t	5	17.00	1	USD	t	\N	2016-12-19 05:17:52.725427	1	\N
-14	ROR-00016	0.00	\N	\N	\N	\N	t	14	15.00	1	USD	t	\N	2016-12-19 05:17:53.03792	1	\N
-7	APC-00001	0.00	\N	\N	\N	\N	t	7	17.00	1	USD	t	\N	2016-12-19 05:17:53.34565	1	\N
-6	RUB-00001	0.00	\N	\N	\N	\N	t	6	17.00	1	USD	t	\N	2016-12-19 05:17:53.628481	1	\N
-12	SPR-00012	0.00	\N	\N	\N	\N	t	12	21.00	1	USD	t	\N	2016-12-19 05:17:53.82146	1	\N
-11	SPR-00011	0.00	\N	\N	\N	\N	t	11	13.00	1	USD	t	\N	2016-12-19 05:17:54.210346	1	\N
-17	ROR-00001	0.00	\N	\N	\N	\N	f	3	17.00	2	USD	t	\N	2016-12-19 05:17:48.071085	1	\N
-10	SPR-00015	0.00	\N	\N	\N	\N	t	10	17.00	1	USD	t	\N	2016-12-19 05:17:54.536107	1	\N
-18	ROR-00002	0.00	\N	\N	\N	\N	f	3	17.00	3	USD	t	\N	2016-12-19 05:17:48.414492	1	\N
-9	SPR-00013	0.00	\N	\N	\N	\N	t	9	17.00	1	USD	t	\N	2016-12-19 05:17:54.695844	1	\N
-19	ROR-00003	0.00	\N	\N	\N	\N	f	3	17.00	4	USD	t	\N	2016-12-19 05:17:48.740084	1	\N
-20	ROR-00004	0.00	\N	\N	\N	\N	f	3	17.00	5	USD	t	\N	2016-12-19 05:17:49.070291	1	\N
-8	SPR-00001	0.00	\N	\N	\N	\N	t	8	17.00	1	USD	t	\N	2016-12-19 05:17:55.04969	1	\N
-21	ROR-00005	0.00	\N	\N	\N	\N	f	3	17.00	6	USD	t	\N	2016-12-19 05:17:49.393688	1	\N
-22	ROR-00006	0.00	\N	\N	\N	\N	f	3	17.00	7	USD	t	\N	2016-12-19 05:17:49.747406	1	\N
-15	SPR-00016	0.00	\N	\N	\N	\N	t	15	15.00	1	USD	t	\N	2016-12-19 05:17:55.393721	1	\N
-23	ROR-00007	0.00	\N	\N	\N	\N	f	3	17.00	8	USD	t	\N	2016-12-19 05:17:50.08326	1	\N
-16	SPR-00014	0.00	\N	\N	\N	\N	t	16	11.00	1	USD	t	\N	2016-12-19 05:17:55.664793	1	\N
-24	ROR-00008	0.00	\N	\N	\N	\N	f	3	17.00	9	USD	t	\N	2016-12-19 05:17:50.409017	1	\N
-2	ROR-00012	0.00	\N	\N	\N	\N	t	2	21.00	1	USD	t	\N	2016-12-19 07:19:50.330519	1	\N
-25	ROR-00009	0.00	\N	\N	\N	\N	f	3	17.00	10	USD	t	\N	2016-12-19 05:17:50.741154	1	\N
-26	ROR-00010	0.00	\N	\N	\N	\N	f	3	17.00	11	USD	t	\N	2016-12-19 05:17:51.062518	1	\N
-1	ROR-00011	0.00	\N	\N	\N	\N	t	1	17.00	1	USD	t	\N	2016-12-19 05:17:51.444566	1	\N
-3	ROR-001	0.00	\N	\N	\N	\N	t	3	17.00	1	USD	t	\N	2016-12-19 05:17:51.927267	1	\N
-4	ROR-00013	0.00	\N	\N	\N	\N	t	4	17.00	1	USD	t	\N	2016-12-19 05:17:52.081404	1	\N
-13	ROR-00014	0.00	\N	\N	\N	\N	t	13	11.00	1	USD	t	\N	2016-12-19 05:17:52.397196	1	\N
+5	ROR-00015	0.00	\N	\N	\N	\N	t	5	17.00	1	USD	t	\N	2016-12-17 19:17:18.252787	1	\N
+14	ROR-00016	0.00	\N	\N	\N	\N	t	14	15.00	1	USD	t	\N	2016-12-17 19:17:18.535017	1	\N
+12	SPR-00012	0.00	\N	\N	\N	\N	t	12	21.00	1	USD	t	\N	2016-12-17 19:17:19.080982	1	\N
+11	SPR-00011	0.00	\N	\N	\N	\N	t	11	13.00	1	USD	t	\N	2016-12-17 19:17:19.3558	1	\N
+17	ROR-00001	0.00	\N	\N	\N	\N	f	3	17.00	2	USD	t	\N	2016-12-17 19:17:14.709232	1	\N
+10	SPR-00015	0.00	\N	\N	\N	\N	t	10	17.00	1	USD	t	\N	2016-12-17 19:17:19.584813	1	\N
+18	ROR-00002	0.00	\N	\N	\N	\N	f	3	17.00	3	USD	t	\N	2016-12-17 19:17:14.999589	1	\N
+9	SPR-00013	0.00	\N	\N	\N	\N	t	9	17.00	1	USD	t	\N	2016-12-17 19:17:19.688875	1	\N
+19	ROR-00003	0.00	\N	\N	\N	\N	f	3	17.00	4	USD	t	\N	2016-12-17 19:17:15.231284	1	\N
+20	ROR-00004	0.00	\N	\N	\N	\N	f	3	17.00	5	USD	t	\N	2016-12-17 19:17:15.48203	1	\N
+8	SPR-00001	0.00	\N	\N	\N	\N	t	8	17.00	1	USD	t	\N	2016-12-17 19:17:19.937277	1	\N
+21	ROR-00005	0.00	\N	\N	\N	\N	f	3	17.00	6	USD	t	\N	2016-12-17 19:17:15.714335	1	\N
+22	ROR-00006	0.00	\N	\N	\N	\N	f	3	17.00	7	USD	t	\N	2016-12-17 19:17:15.982231	1	\N
+15	SPR-00016	0.00	\N	\N	\N	\N	t	15	15.00	1	USD	t	\N	2016-12-17 19:17:20.206273	1	\N
+23	ROR-00007	0.00	\N	\N	\N	\N	f	3	17.00	8	USD	t	\N	2016-12-17 19:17:16.281526	1	\N
+16	SPR-00014	0.00	\N	\N	\N	\N	t	16	11.00	1	USD	t	\N	2016-12-17 19:17:20.388285	1	\N
+24	ROR-00008	0.00	\N	\N	\N	\N	f	3	17.00	9	USD	t	\N	2016-12-17 19:17:16.54708	1	\N
+25	ROR-00009	0.00	\N	\N	\N	\N	f	3	17.00	10	USD	t	\N	2016-12-17 19:17:16.832768	1	\N
+6	RUB-00001	0.00	\N	\N	\N	\N	t	6	17.00	1	USD	t	\N	2016-12-20 04:01:06.342959	1	\N
+26	ROR-00010	0.00	\N	\N	\N	\N	f	3	17.00	11	USD	t	\N	2016-12-17 19:17:17.084651	1	\N
+7	APC-00001	0.00	\N	\N	\N	\N	t	7	17.00	1	USD	t	\N	2016-12-20 04:02:22.547011	1	\N
+1	ROR-00011	0.00	\N	\N	\N	\N	t	1	17.00	1	USD	t	\N	2016-12-17 19:17:17.347508	1	\N
+2	ROR-00012	0.00	\N	\N	\N	\N	t	2	21.00	1	USD	t	\N	2016-12-17 19:17:17.461597	1	\N
+3	ROR-001	0.00	\N	\N	\N	\N	t	3	17.00	1	USD	t	\N	2016-12-17 19:17:17.682322	1	\N
+4	ROR-00013	0.00	\N	\N	\N	\N	t	4	17.00	1	USD	t	\N	2016-12-17 19:17:17.810859	1	\N
+13	ROR-00014	0.00	\N	\N	\N	\N	t	13	11.00	1	USD	t	\N	2016-12-17 19:17:18.032496	1	\N
 \.
 
 
@@ -9675,36 +9761,36 @@ SELECT pg_catalog.setval('spree_variants_id_seq', 26, true);
 --
 
 COPY spree_zone_members (id, zoneable_id, zoneable_type, zone_id, created_at, updated_at) FROM stdin;
-1	179	Spree::Country	1	2016-12-19 05:17:05.239475	2016-12-19 05:17:05.239475
-2	70	Spree::Country	1	2016-12-19 05:17:05.253713	2016-12-19 05:17:05.253713
-3	183	Spree::Country	1	2016-12-19 05:17:05.264797	2016-12-19 05:17:05.264797
-4	188	Spree::Country	1	2016-12-19 05:17:05.27628	2016-12-19 05:17:05.27628
-5	57	Spree::Country	1	2016-12-19 05:17:05.287548	2016-12-19 05:17:05.287548
-6	75	Spree::Country	1	2016-12-19 05:17:05.298743	2016-12-19 05:17:05.298743
-7	201	Spree::Country	1	2016-12-19 05:17:05.310035	2016-12-19 05:17:05.310035
-8	100	Spree::Country	1	2016-12-19 05:17:05.321389	2016-12-19 05:17:05.321389
-9	199	Spree::Country	1	2016-12-19 05:17:05.332853	2016-12-19 05:17:05.332853
-10	102	Spree::Country	1	2016-12-19 05:17:05.343801	2016-12-19 05:17:05.343801
-11	12	Spree::Country	1	2016-12-19 05:17:05.355107	2016-12-19 05:17:05.355107
-12	68	Spree::Country	1	2016-12-19 05:17:05.36649	2016-12-19 05:17:05.36649
-13	110	Spree::Country	1	2016-12-19 05:17:05.37782	2016-12-19 05:17:05.37782
-14	20	Spree::Country	1	2016-12-19 05:17:05.389119	2016-12-19 05:17:05.389119
-15	196	Spree::Country	1	2016-12-19 05:17:05.400709	2016-12-19 05:17:05.400709
-16	135	Spree::Country	1	2016-12-19 05:17:05.411857	2016-12-19 05:17:05.411857
-17	22	Spree::Country	1	2016-12-19 05:17:05.422887	2016-12-19 05:17:05.422887
-18	77	Spree::Country	1	2016-12-19 05:17:05.434311	2016-12-19 05:17:05.434311
-19	133	Spree::Country	1	2016-12-19 05:17:05.445542	2016-12-19 05:17:05.445542
-20	55	Spree::Country	1	2016-12-19 05:17:05.456967	2016-12-19 05:17:05.456967
-21	134	Spree::Country	1	2016-12-19 05:17:05.468559	2016-12-19 05:17:05.468559
-22	153	Spree::Country	1	2016-12-19 05:17:05.479663	2016-12-19 05:17:05.479663
-23	59	Spree::Country	1	2016-12-19 05:17:05.491002	2016-12-19 05:17:05.491002
-24	166	Spree::Country	1	2016-12-19 05:17:05.502431	2016-12-19 05:17:05.502431
-25	64	Spree::Country	1	2016-12-19 05:17:05.513578	2016-12-19 05:17:05.513578
-26	98	Spree::Country	1	2016-12-19 05:17:05.524744	2016-12-19 05:17:05.524744
-27	56	Spree::Country	1	2016-12-19 05:17:05.536089	2016-12-19 05:17:05.536089
-28	89	Spree::Country	1	2016-12-19 05:17:05.547715	2016-12-19 05:17:05.547715
-29	232	Spree::Country	2	2016-12-19 05:17:05.558576	2016-12-19 05:17:05.558576
-30	38	Spree::Country	2	2016-12-19 05:17:05.569839	2016-12-19 05:17:05.569839
+1	179	Spree::Country	1	2016-12-17 19:17:03.053095	2016-12-17 19:17:03.053095
+2	70	Spree::Country	1	2016-12-17 19:17:03.064329	2016-12-17 19:17:03.064329
+3	183	Spree::Country	1	2016-12-17 19:17:03.072915	2016-12-17 19:17:03.072915
+4	188	Spree::Country	1	2016-12-17 19:17:03.080991	2016-12-17 19:17:03.080991
+5	57	Spree::Country	1	2016-12-17 19:17:03.089274	2016-12-17 19:17:03.089274
+6	75	Spree::Country	1	2016-12-17 19:17:03.097602	2016-12-17 19:17:03.097602
+7	201	Spree::Country	1	2016-12-17 19:17:03.105923	2016-12-17 19:17:03.105923
+8	100	Spree::Country	1	2016-12-17 19:17:03.114217	2016-12-17 19:17:03.114217
+9	199	Spree::Country	1	2016-12-17 19:17:03.122307	2016-12-17 19:17:03.122307
+10	102	Spree::Country	1	2016-12-17 19:17:03.130816	2016-12-17 19:17:03.130816
+11	12	Spree::Country	1	2016-12-17 19:17:03.139122	2016-12-17 19:17:03.139122
+12	68	Spree::Country	1	2016-12-17 19:17:03.147508	2016-12-17 19:17:03.147508
+13	110	Spree::Country	1	2016-12-17 19:17:03.155849	2016-12-17 19:17:03.155849
+14	20	Spree::Country	1	2016-12-17 19:17:03.164174	2016-12-17 19:17:03.164174
+15	196	Spree::Country	1	2016-12-17 19:17:03.172531	2016-12-17 19:17:03.172531
+16	135	Spree::Country	1	2016-12-17 19:17:03.18071	2016-12-17 19:17:03.18071
+17	22	Spree::Country	1	2016-12-17 19:17:03.337475	2016-12-17 19:17:03.337475
+18	77	Spree::Country	1	2016-12-17 19:17:03.355735	2016-12-17 19:17:03.355735
+19	133	Spree::Country	1	2016-12-17 19:17:03.363987	2016-12-17 19:17:03.363987
+20	55	Spree::Country	1	2016-12-17 19:17:03.372085	2016-12-17 19:17:03.372085
+21	134	Spree::Country	1	2016-12-17 19:17:03.38069	2016-12-17 19:17:03.38069
+22	153	Spree::Country	1	2016-12-17 19:17:03.388848	2016-12-17 19:17:03.388848
+23	59	Spree::Country	1	2016-12-17 19:17:03.397322	2016-12-17 19:17:03.397322
+24	166	Spree::Country	1	2016-12-17 19:17:03.405493	2016-12-17 19:17:03.405493
+25	64	Spree::Country	1	2016-12-17 19:17:03.413944	2016-12-17 19:17:03.413944
+26	98	Spree::Country	1	2016-12-17 19:17:03.422088	2016-12-17 19:17:03.422088
+27	56	Spree::Country	1	2016-12-17 19:17:03.430653	2016-12-17 19:17:03.430653
+28	89	Spree::Country	1	2016-12-17 19:17:03.438883	2016-12-17 19:17:03.438883
+29	232	Spree::Country	2	2016-12-17 19:17:03.447261	2016-12-17 19:17:03.447261
+30	38	Spree::Country	2	2016-12-17 19:17:03.45588	2016-12-17 19:17:03.45588
 \.
 
 
@@ -9720,8 +9806,8 @@ SELECT pg_catalog.setval('spree_zone_members_id_seq', 30, true);
 --
 
 COPY spree_zones (id, name, description, default_tax, zone_members_count, created_at, updated_at, kind) FROM stdin;
-1	EU_VAT	Countries that make up the EU VAT zone.	f	28	2016-12-19 05:17:05.160255	2016-12-19 05:17:05.160255	country
-2	North America	USA + Canada	f	2	2016-12-19 05:17:05.219453	2016-12-19 05:17:05.219453	country
+1	EU_VAT	Countries that make up the EU VAT zone.	f	28	2016-12-17 19:17:03.019363	2016-12-17 19:17:03.019363	country
+2	North America	USA + Canada	f	2	2016-12-17 19:17:03.039396	2016-12-17 19:17:03.039396	country
 \.
 
 
@@ -10290,6 +10376,14 @@ ALTER TABLE ONLY spree_store_credits
 
 ALTER TABLE ONLY spree_stores
     ADD CONSTRAINT spree_stores_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: spree_suggestions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY spree_suggestions
+    ADD CONSTRAINT spree_suggestions_pkey PRIMARY KEY (id);
 
 
 --
@@ -11406,6 +11500,13 @@ CREATE INDEX index_spree_stores_on_default ON spree_stores USING btree ("default
 --
 
 CREATE INDEX index_spree_stores_on_url ON spree_stores USING btree (url);
+
+
+--
+-- Name: index_spree_suggestions_on_keywords_and_count_and_items_found; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX index_spree_suggestions_on_keywords_and_count_and_items_found ON spree_suggestions USING btree (keywords, count, items_found);
 
 
 --
