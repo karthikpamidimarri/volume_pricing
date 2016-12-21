@@ -3,6 +3,14 @@ Prefix Verb URI Pattern Controller#Action
 
 Routes for Spree::Core::Engine:
                                       suggestions GET                       /suggestions(.:format)                                                        spree/suggestions#index
+                                     set_currency POST                      /currency/set(.:format)                                                       spree/currency#set {:format=>:json}
+                             admin_product_prices GET                       /admin/products/:product_id/prices(.:format)                                  spree/admin/prices#index
+                                                  POST                      /admin/products/:product_id/prices(.:format)                                  spree/admin/prices#create
+
+                                                  POST                      /admin/products(.:format)                                                     spree/admin/products#create
+                                                  PATCH                     /admin/products/:id(.:format)                                                 spree/admin/products#update
+                                                  PUT                       /admin/products/:id(.:format)                                                 spree/admin/products#update
+                                                  DELETE                    /admin/products/:id(.:format)                                                 spree/admin/products#destroy
                         select_admin_product_part POST                      /admin/products/:product_id/parts/:id/select(.:format)                        spree/admin/parts#select
                         remove_admin_product_part POST                      /admin/products/:product_id/parts/:id/remove(.:format)                        spree/admin/parts#remove
                      set_count_admin_product_part POST                      /admin/products/:product_id/parts/:id/set_count(.:format)                     spree/admin/parts#set_count
@@ -16,6 +24,7 @@ Routes for Spree::Core::Engine:
                                                   PATCH                     /admin/products/:product_id/parts/:id(.:format)                               spree/admin/parts#update
                                                   PUT                       /admin/products/:product_id/parts/:id(.:format)                               spree/admin/parts#update
                                                   DELETE                    /admin/products/:product_id/parts/:id(.:format)                               spree/admin/parts#destroy
+                                                  GET                       /admin/products(.:format)                                                     spree/admin/products#index
                                    admin_products GET                       /admin/products(.:format)                                                     spree/admin/products#index
                                                   POST                      /admin/products(.:format)                                                     spree/admin/products#create
                                 new_admin_product GET                       /admin/products/new(.:format)                                                 spree/admin/products#new
