@@ -39,9 +39,9 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
   gem 'rails_12factor', group: :production
-  gem 'spree'
-  gem 'spree_auth_devise'
-  gem 'spree_gateway'
+  gem 'spree', github: "spree/spree", branch: '3-1-stable'
+  gem 'spree_auth_devise', github: "spree/spree_auth_devise", branch: '3-1-stable'
+  gem 'spree_gateway', github: "spree/spree_gateway", branch: '3-1-stable'
   gem 'spree_social', github: 'spree-contrib/spree_social', branch: '3-1-stable'
   gem 'spree_product_assembly', github: 'spree-contrib/spree-product-assembly', branch: '3-1-stable'
   gem 'meta-tags'
